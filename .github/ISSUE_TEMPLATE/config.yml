@@ -2,7 +2,7 @@ blank_issues_enabled: false
 contact_links:
   - name: Browse the catalogue
     url: https://ngano.dev
-    about: Search 612 datasets before filing, the answer may already be there.
+    about: Search 611 datasets before filing, the answer may already be there.
   - name: Documentation
     url: https://ngano.dev/docs
     about: API reference, MCP tools, the row schema and the loading guide.

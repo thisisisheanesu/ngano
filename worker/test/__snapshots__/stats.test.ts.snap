@@ -19,7 +19,7 @@ exports[`GET /api/v1/stats > matches the snapshot 1`] = `
       "value": "Scrape required",
     },
     {
-      "datasets": 37,
+      "datasets": 36,
       "hours": 4680.5,
       "value": "Paid",
     },
@@ -41,14 +41,14 @@ exports[`GET /api/v1/stats > matches the snapshot 1`] = `
       "value": "No",
     },
     {
-      "datasets": 37,
+      "datasets": 36,
       "hours": 4680.5,
       "value": "Yes, if purchased",
     },
   ],
   "by_domain": [
     {
-      "datasets": 311,
+      "datasets": 310,
       "hours": 48096.2,
       "value": "General / unstated",
     },
@@ -100,7 +100,7 @@ exports[`GET /api/v1/stats > matches the snapshot 1`] = `
   ],
   "by_labelled": [
     {
-      "datasets": 454,
+      "datasets": 453,
       "hours": 89322.1,
       "value": "Transcribed",
     },
@@ -147,7 +147,7 @@ exports[`GET /api/v1/stats > matches the snapshot 1`] = `
       "value": "Attribution + ShareAlike",
     },
     {
-      "datasets": 26,
+      "datasets": 25,
       "hours": 3166.5,
       "value": "Commercial (purchase)",
     },
@@ -179,7 +179,7 @@ exports[`GET /api/v1/stats > matches the snapshot 1`] = `
   ],
   "by_quality": [
     {
-      "datasets": 374,
+      "datasets": 373,
       "hours": 68248.3,
       "value": "Unstated",
     },
@@ -216,7 +216,7 @@ exports[`GET /api/v1/stats > matches the snapshot 1`] = `
       "value": "West Africa",
     },
     {
-      "datasets": 135,
+      "datasets": 134,
       "hours": 15233.2,
       "value": "Southern Africa",
     },
@@ -258,7 +258,7 @@ exports[`GET /api/v1/stats > matches the snapshot 1`] = `
       "value": "Raw source",
     },
     {
-      "datasets": 64,
+      "datasets": 63,
       "hours": 24052.6,
       "value": "ASR+TTS",
     },
@@ -275,7 +275,7 @@ exports[`GET /api/v1/stats > matches the snapshot 1`] = `
   ],
   "by_variety": [
     {
-      "datasets": 487,
+      "datasets": 486,
       "hours": 101890.4,
       "value": "Indigenous",
     },
@@ -296,7 +296,7 @@ exports[`GET /api/v1/stats > matches the snapshot 1`] = `
     },
   ],
   "countries": 57,
-  "datasets": 612,
+  "datasets": 611,
   "hours": 110749.9,
   "hours_commercial": 64505,
   "hours_open": 72106.4,

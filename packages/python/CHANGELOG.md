@@ -11,7 +11,7 @@ First release.
 
 - `Catalogue`, reading the snapshot bundled in the wheel with no network and no
   Hugging Face token, or reading live from `https://ngano.dev/api/v1` through
-  `Catalogue.from_api()`. 612 dataset records, 58 countries, 315 language tags.
+  `Catalogue.from_api()`. 611 dataset records, 58 countries, 315 language tags.
 - `Catalogue.datasets()`, `get()`, `find()`, `search()`, `countries()`,
   `country()`, `languages()`, `language()`, `language_codes()`,
   `resolve_language()` and `stats()`. Every hours total

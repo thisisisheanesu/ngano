@@ -11,7 +11,7 @@ and keeps the result in one place.
 
 | | |
 | --- | --- |
-| Datasets catalogued | 612 |
+| Datasets catalogued | 611 |
 | Languages indexed | 421 |
 | African countries covered | 57 of 58 indexed |
 | Verified hours of audio | 110,750 |
@@ -70,7 +70,7 @@ Three records self-report 20,000 hours or more with no independent confirmation.
 They are flagged `unverified_size` and excluded from every hours total on this
 site, in the API, and in all three packages.
 
-329 of the 612 records are not loadable programmatically at all. They live
+328 of the 611 records are not loadable programmatically at all. They live
 behind request forms, paywalls, broadcaster archives or scraping, and the loader
 will not scrape anything for you.
 

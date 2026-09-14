@@ -2,7 +2,7 @@
 
 The catalogue tells you what exists. The loader gets you rows.
 
-283 of the 612 records carry an `hf_repo` and are loadable this way. The other
+283 of the 611 records carry an `hf_repo` and are loadable this way. The other
 329 need a request form, a purchase, or a visit to a broadcaster's archive.
 Filter on `hf_only` if you only want what you can load today.
 

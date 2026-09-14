@@ -16,10 +16,10 @@ First public release.
 
 ### Added
 
-- **Catalogue** of 612 African-language speech dataset records covering 421
+- **Catalogue** of 611 African-language speech dataset records covering 421
   languages and 57 countries, built by a country-by-country sweep of all 54
   African countries plus pan-African and accented-variety passes. 768 raw
-  records were de-duplicated to 612. See `docs/methodology.md`.
+  records were de-duplicated to 612, then trimmed to 611. See `docs/methodology.md`.
 - **`data/schema.json`**, a JSON Schema 2020-12 definition of the dataset record,
   with the controlled vocabularies for `task`, `variety`, `quality`, `labelled`,
   `commercial`, `access` and `licence_class`.
@@ -50,7 +50,7 @@ First public release.
 - Three records carry `unverified_size: true` and are excluded from every hours
   total. The verified total is 110,750 hours across 238 records that state a
   size.
-- 283 of 612 records are loadable from the Hugging Face Hub. The rest require a
+- 283 of 611 records are loadable from the Hugging Face Hub. The rest require a
   request form, a purchase, or a visit to a host that ngano will not scrape.
 
 [Unreleased]: https://github.com/thisisisheanesu/ngano/compare/py-v0.1.0...HEAD

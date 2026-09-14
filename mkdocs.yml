@@ -1,6 +1,6 @@
 site_name: ngano
 site_description: >-
-  A catalogue and a unified loader for African-language speech datasets. 612
+  A catalogue and a unified loader for African-language speech datasets. 611
   datasets, 421 languages, 57 countries, with a public API, an MCP server and
   one loader API in Python, JavaScript and Rust.
 site_url: https://ngano.dev/docs/

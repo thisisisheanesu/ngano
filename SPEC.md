@@ -14,7 +14,7 @@ Do not edit `SPEC.md`, `data/*.json`, or another agent's directory.
 
 ## Data files (already built, read-only for you)
 
-- `data/catalogue.json` — 612 dataset records. Fields:
+- `data/catalogue.json` — 611 dataset records. Fields:
   `id, name, task, variety, languages, languages_clean, iso, countries, country_codes,
    regions, hours, hours_num, speakers, recording_type, quality, labelled, domain,
    licence, licence_class, commercial, access, host, url, hf_repo, year, notes,

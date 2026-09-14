@@ -155,7 +155,7 @@ three SDKs use, so a client can implement its own loader against it. See
 ## GET /healthz
 
 ```json
-{ "ok": true, "version": "0.1.0", "datasets": 612 }
+{ "ok": true, "version": "0.1.0", "datasets": 611 }
 ```
 
 Use `version` when filing a bug against the API or the MCP server.

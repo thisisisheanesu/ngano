@@ -157,7 +157,7 @@ describe('tools/call', () => {
   it('never counts unverified hours in a search total', async () => {
     const out = await callTool('search_datasets', { per_page: 1 });
     const structured = out.structuredContent as { meta: { total_hours: number; total: number } };
-    expect(structured.meta.total).toBe(612);
+    expect(structured.meta.total).toBe(611);
     expect(structured.meta.total_hours).toBeLessThan(200000);
     expect(out.content[0]?.text).toContain('unverified sizes excluded');
   });
@@ -248,7 +248,7 @@ describe('tools/call', () => {
   it('gets stats', async () => {
     const out = await callTool('get_stats', {});
     const structured = out.structuredContent as { datasets: number; unverified_excluded: number };
-    expect(structured.datasets).toBe(612);
+    expect(structured.datasets).toBe(611);
     expect(structured.unverified_excluded).toBeGreaterThan(0);
     expect(out.content[0]?.text).toContain('excluded from every hour figure');
   });

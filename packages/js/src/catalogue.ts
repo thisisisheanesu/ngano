@@ -1,5 +1,5 @@
 /**
- * The ngano catalogue: 612 African-language speech dataset records, bundled
+ * The ngano catalogue: 611 African-language speech dataset records, bundled
  * with the package so that nothing here needs the network.
  *
  * @packageDocumentation

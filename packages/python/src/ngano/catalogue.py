@@ -1,4 +1,4 @@
-"""The ngano catalogue: 612 African-language speech dataset records.
+"""The ngano catalogue: 611 African-language speech dataset records.
 
 Languages are keyed on BCP 47 tags whose primary subtag is an ISO 639-3 code,
 so Shona is ``sna`` and Nigerian English is ``eng-NG``. Filters, records and

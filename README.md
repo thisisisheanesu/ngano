@@ -13,7 +13,7 @@
 
 Finding speech data for an African language means reading papers, chasing dead
 links, emailing universities and guessing at licences. ngano does that work once
-and keeps the result in one place: **612 datasets**, **421 languages**,
+and keeps the result in one place: **611 datasets**, **421 languages**,
 **57 countries**, with a public API, an MCP server, and one loader API in three
 languages that streams any Hugging Face dataset in the catalogue into the same
 row shape.
@@ -30,7 +30,7 @@ Regenerate all of these with `python scripts/stats.py`.
 
 | | |
 | --- | --- |
-| Datasets catalogued | 612 |
+| Datasets catalogued | 611 |
 | Languages indexed | 421 |
 | African countries covered | 57 of 58 indexed |
 | Pan-African (multi-country) records | 78 |
@@ -216,13 +216,13 @@ Read this before you quote a number from ngano in a paper.
 - **The figures are the publishers' figures.** ngano records what each source
   states. It does not download, decode or measure the audio. Where a source
   states nothing, the field is `null` rather than an estimate.
-- **374 of 612 records state no audio quality** and 252 state no licence. That
+- **373 of 611 records state no audio quality** and 252 state no licence. That
   is a fact about the field, not a gap in the catalogue.
 - **Only 238 records state a size at all.** The 110,750 hour total is the sum of
   those, not the size of African speech data in the world.
 - **Three records are excluded from hours totals** as self-reported at 20,000
   hours or more without confirmation. They are marked `unverified_size`.
-- **283 of 612 records are loadable programmatically.** The rest live behind
+- **283 of 611 records are loadable programmatically.** The rest live behind
   request forms, paywalls, broadcaster archives or scraping. The loader will not
   scrape anything for you.
 - **Licence classes are a reading, not legal advice.** Check the source licence

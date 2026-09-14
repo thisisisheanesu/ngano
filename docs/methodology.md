@@ -41,9 +41,10 @@ AU members plus territories and dependencies that have their own speech data and
 their own ISO codes. 57 of them have at least one record. The gap is real and is
 not papered over.
 
-## From 768 raw records to 612
+## From 768 raw records to 611
 
-The sweep produced **768 raw records**. De-duplication brought that to **612**.
+The sweep produced **768 raw records**. De-duplication brought that to **611**, and one
+vendor platform with no published corpus behind it was dropped afterwards, leaving **611**.
 
 The 156 that went were duplicates, not rejections:
 
@@ -86,7 +87,7 @@ its notes.
 The most important editorial decision in the catalogue is that **a gap is
 recorded as a gap**.
 
-- 366 of 612 records state no size. `hours` and `hours_num` are `null`.
+- 365 of 611 records state no size. `hours` and `hours_num` are `null`.
 - 374 state no audio quality. `quality` is `Unstated`.
 - 252 state no licence. `licence` is `Unstated`.
 - 489 state no speaker count. `speakers` is `null`.
@@ -143,7 +144,7 @@ own data. It is not a measurement. ngano does not download or decode audio.
 It is also not the amount of African speech data in the world. It is the amount
 that is published, documented with a size, and findable.
 
-**612 datasets over 421 languages** does not mean 421 languages have usable
+**611 datasets over 421 languages** does not mean 421 languages have usable
 data. Most have one record, often religious audio or a word list. A handful of
 languages carry most of the hours. Per-language counts are on the
 [languages endpoint](api.md#get-languages-and-languagesslug) and the honest

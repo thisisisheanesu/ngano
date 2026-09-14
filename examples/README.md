@@ -24,7 +24,7 @@ Use `https://ngano.dev/api/v1` if you need the live one.
 
 ### Rows do need a network, and sometimes a token
 
-283 of the 612 catalogue records are on the Hugging Face Hub and can be loaded
+283 of the 611 catalogue records are on the Hugging Face Hub and can be loaded
 directly. Some of those are **gated**: you accept terms on the dataset page,
 then authenticate. All three loaders read `HF_TOKEN` from the environment.
 

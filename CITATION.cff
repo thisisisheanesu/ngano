@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "If you use ngano, please cite it as below."
 title: "ngano: a catalogue and unified loader for African-language speech datasets"
 abstract: >-
-  ngano is an open catalogue of 612 African-language speech datasets covering
+  ngano is an open catalogue of 611 African-language speech datasets covering
   421 languages and 57 countries, with a public JSON API, an MCP server, and a
   single streaming loader API implemented in Python, JavaScript and Rust. Every
   figure is recorded as its publisher states it, self-reported sizes at or above

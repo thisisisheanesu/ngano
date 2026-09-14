@@ -9,8 +9,8 @@ const catalogue = new Catalogue();
 
 describe("bundled snapshot", () => {
   it("works with no network at all", () => {
-    expect(SNAPSHOT_SIZE).toBe(612);
-    expect(catalogue.records).toHaveLength(612);
+    expect(SNAPSHOT_SIZE).toBe(611);
+    expect(catalogue.records).toHaveLength(611);
     expect(catalogue.records[0]?.id).toBeTruthy();
   });
 
@@ -66,7 +66,7 @@ describe("filters", () => {
 
   it("widens to purchasable datasets when asked", () => {
     const results = catalogue.datasets({ commercial: true, includePurchasable: true });
-    expect(results.length).toBe(204 + 37);
+    expect(results.length).toBe(204 + 36);
     expect(
       results.every((dataset) =>
         ["Yes", "Yes, if purchased"].includes(dataset.commercial ?? ""),
@@ -82,7 +82,7 @@ describe("filters", () => {
 
   it("matches the purchasable value despite the comma in it", () => {
     const results = catalogue.datasets({ commercial: "Yes, if purchased" });
-    expect(results.length).toBe(37);
+    expect(results.length).toBe(36);
     expect(results.every((dataset) => dataset.commercial === "Yes, if purchased")).toBe(true);
   });
 
@@ -150,11 +150,11 @@ describe("aggregates", () => {
 
   it("counts datasets, languages, countries and repos", () => {
     const stats = catalogue.stats();
-    expect(stats.datasets).toBe(612);
+    expect(stats.datasets).toBe(611);
     expect(stats.hfRepos).toBe(283);
     expect(stats.languages).toBeGreaterThan(100);
     expect(stats.countries).toBeGreaterThan(40);
-    expect(Object.values(stats.byTask).reduce((a, b) => a + b, 0)).toBe(612);
+    expect(Object.values(stats.byTask).reduce((a, b) => a + b, 0)).toBe(611);
     expect(stats.byCommercial["Yes"]).toBe(204);
   });
 
@@ -225,7 +225,7 @@ describe("search", () => {
   });
 
   it("returns everything for an empty query", () => {
-    expect(catalogue.search("   ")).toHaveLength(612);
+    expect(catalogue.search("   ")).toHaveLength(611);
   });
 
   it("can be combined with a filter", () => {

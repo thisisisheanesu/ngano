@@ -2,7 +2,7 @@
 
 **Open catalogue and streaming loader for African-language speech datasets.**
 
-`ngano` (Shona: folk stories, the oral tradition) catalogues 612 speech and text
+`ngano` (Shona: folk stories, the oral tradition) catalogues 611 speech and text
 corpora for African languages, and streams the 283 of them that live on Hugging
 Face through one canonical row schema. One loop can read across datasets that
 agree on nothing: different column names, different units, different splits.

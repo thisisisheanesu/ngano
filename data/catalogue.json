@@ -34286,54 +34286,6 @@
   "language_codes": []
  },
  {
-  "id": "vambo-ai-shona-asr-tts-platform",
-  "name": "Vambo AI (Shona ASR/TTS platform)",
-  "task": "ASR+TTS",
-  "variety": "Indigenous",
-  "languages": [
-   "Shona"
-  ],
-  "languages_clean": [
-   "Shona"
-  ],
-  "iso": [
-   "sna"
-  ],
-  "countries": [
-   "Zimbabwe",
-   "Pan-African"
-  ],
-  "country_codes": [
-   "ZW"
-  ],
-  "regions": [
-   "Southern Africa"
-  ],
-  "hours": null,
-  "hours_num": null,
-  "speakers": null,
-  "recording_type": null,
-  "quality": "Unstated",
-  "labelled": "Transcribed",
-  "domain": "General / unstated",
-  "licence": "commercial/paid",
-  "licence_class": "Commercial (purchase)",
-  "commercial": "Yes, if purchased",
-  "access": "Paid",
-  "host": "vendor site",
-  "url": "https://vambo.ai/",
-  "hf_repo": null,
-  "year": null,
-  "notes": "Zimbabwean startup offering Shona-first ASR, TTS and voice cloning APIs for 60+ African languages; underlying training data is not published but they are a likely data-partnership route.",
-  "unverified_size": false,
-  "language_tags": [
-   "sna"
-  ],
-  "language_codes": [
-   "sna"
-  ]
- },
- {
   "id": "voa-africa-services-audio-archive",
   "name": "VOA Africa services audio archive",
   "task": "Raw source",

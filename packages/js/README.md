@@ -4,7 +4,7 @@ An open catalogue and streaming loader for African-language speech datasets.
 
 `ngano` is Shona for folk stories, the oral tradition told aloud and later written down.
 
-- 612 dataset records covering African speech corpora, bundled inside the package, so the
+- 611 dataset records covering African speech corpora, bundled inside the package, so the
   catalogue works with no network and no API key.
 - Rows stream straight from the Hugging Face datasets server over plain HTTP. No Python
   runtime, no `datasets` install, no local cache, no download of a whole corpus to read

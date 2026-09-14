@@ -179,7 +179,7 @@ describe("catalogue commands", () => {
   it("prints stats, excluding unverified hours", async () => {
     const { text } = await cli(["stats", "--json"]);
     const stats = JSON.parse(text) as { datasets: number; hours: number; unverifiedExcluded: number };
-    expect(stats.datasets).toBe(612);
+    expect(stats.datasets).toBe(611);
     expect(stats.unverifiedExcluded).toBe(3);
     expect(stats.hours).toBeGreaterThan(0);
 
