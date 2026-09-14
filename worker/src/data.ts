@@ -439,6 +439,10 @@ export interface Env {
    * site must not care.
    */
   ANALYTICS?: AnalyticsEngineDataset;
+  /** Admin credentials and sessions. Absent on a fork, which disables /admin entirely. */
+  ADMIN?: KVNamespace;
+  /** Account token with Account Analytics: Read, for the dashboard's own queries. */
+  CF_ANALYTICS_TOKEN?: string;
 }
 
 const contextCache = new Map<string, SiteContext>();

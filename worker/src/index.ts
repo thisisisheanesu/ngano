@@ -13,6 +13,7 @@ import { CACHE_CONTROL_LONG, cors, error, etag, html, json, matchesEtag, notModi
 import { countries, datasets, fieldMap, geo, getContext, languageCodes, languages, snippets, type Env } from './data.js';
 import type { SiteContext } from './types.js';
 import { record, surfaceOf } from './analytics.js';
+import { adminEnabled, handleAdmin } from './admin/index.js';
 import {
   renderCountry,
   renderCredits,
@@ -72,6 +73,7 @@ function robots(ctx: SiteContext): string {
   return [
     'User-agent: *',
     'Allow: /',
+    'Disallow: /admin',
     '',
     '# The catalogue is CC-BY-4.0. The JSON API and the raw files below are open,',
     '# unauthenticated and cheaper for everyone than scraping the HTML.',
@@ -117,6 +119,15 @@ export async function handleRequest(req: Request, env: Env): Promise<Response> {
 
   const ctx = getContext(env, req.url);
   const path = normalisePath(url.pathname);
+
+  /*
+   * Before the GET-only guard below, because the admin has forms to post to, and before
+   * anything cacheable, because none of it may be cached.
+   */
+  if (path === '/admin' || path.startsWith('/admin/')) {
+    if (!adminEnabled(env)) return html(renderNotFound(ctx, path), { status: 404, cache: 'no-store' });
+    return handleAdmin(req, env, path, ctx);
+  }
 
   if (path === '/mcp') return handleMcp(req, ctx);
   if (path.startsWith('/api/v1')) return handleApi(req, path.slice('/api/v1'.length), ctx);

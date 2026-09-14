@@ -19,6 +19,12 @@ custom_domain = true
 # Per-country request counts, written by the Worker itself. Free tier on Workers, no
 # client-side beacon, and it sees the API and the MCP endpoint too, which a page script
 # never could. See src/analytics.ts for what is and is not recorded.
+# Admin credentials and sessions. The password lives here, not in a secret, so it can
+# be changed from the dashboard without a redeploy.
+[[kv_namespaces]]
+binding = "ADMIN"
+id = "6472bcd1857a459aa1281fcbc070297f"
+
 [[analytics_engine_datasets]]
 binding = "ANALYTICS"
 dataset = "ngano_requests"
