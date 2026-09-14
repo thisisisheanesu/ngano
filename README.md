@@ -51,7 +51,7 @@ not as hours.
 
 ```bash
 pip install ngano                 # Python 3.9+
-npm install ngano                 # Node 18+, also works in Deno and the browser
+npm install @thisisisheanesu/ngano                 # Node 18+, also works in Deno and the browser
 cargo add ngano                   # Rust, MSRV 1.74
 ```
 
@@ -79,7 +79,7 @@ for row in rows.take(5):
 ### JavaScript and TypeScript
 
 ```js
-import { Catalogue, load } from "ngano";
+import { Catalogue, load } from "@thisisisheanesu/ngano";
 
 const cat = await Catalogue.load();
 const shona = cat.search({ language: "Shona", access: "Open", hasHours: true });

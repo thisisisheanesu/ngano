@@ -77,7 +77,7 @@ result.
 ## JavaScript
 
 ```bash
-npm install ngano
+npm install @thisisisheanesu/ngano
 
 node js/browse_catalogue.mjs --stats
 node js/browse_catalogue.mjs --language Swahili --access Open --limit 5

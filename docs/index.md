@@ -30,7 +30,7 @@ you can `break` after five rows without downloading a corpus.
 
 ```bash
 pip install ngano
-npm install ngano
+npm install @thisisisheanesu/ngano
 cargo add ngano
 ```
 

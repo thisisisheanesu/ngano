@@ -17,14 +17,14 @@
  * Datasets whose access is Request, Paid or Scrape required are skipped. A
  * token will not help with those, someone has to ask or pay first.
  *
- * Requires: npm install ngano
+ * Requires: npm install @thisisisheanesu/ngano
  */
 
 import { createWriteStream } from "node:fs";
 import { once } from "node:events";
 import process from "node:process";
 
-import { Catalogue, load } from "ngano";
+import { Catalogue, load } from "@thisisisheanesu/ngano";
 
 const SKIPPABLE = new Set(["Request", "Paid", "Scrape required", "Unclear"]);
 

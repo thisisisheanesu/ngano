@@ -11,10 +11,10 @@
  * search, filter and count all run offline. The network is only touched when
  * you ask for rows, which this example never does.
  *
- * Requires: npm install ngano
+ * Requires: npm install @thisisisheanesu/ngano
  */
 
-import { Catalogue } from "ngano";
+import { Catalogue } from "@thisisisheanesu/ngano";
 
 const FLAGS = [
   "language", "iso", "country", "region", "task", "variety",

@@ -16,6 +16,11 @@ const document = JSON.parse(
   readFileSync(join(__dirname, "..", "snippets.json"), "utf8"),
 ) as SnippetsDocument;
 
+/* Read the published name rather than hard-coding it, so a rename moves in one place. */
+const PACKAGE_NAME = (
+  JSON.parse(readFileSync(join(__dirname, "..", "package.json"), "utf8")) as { name: string }
+).name;
+
 /** The placeholder tokens the consumer substitutes, and real values for them. */
 const VALUES: Record<string, string> = {
   // A BCP 47 tag, never a display name: the catalogue is keyed on tags.
@@ -45,7 +50,7 @@ function substitute(source: string): string {
 describe("snippets.json", () => {
   it("declares the shape the website and MCP tool expect", () => {
     expect(document.language).toBe("javascript");
-    expect(document.install).toBe("npm install ngano");
+    expect(document.install).toBe(`npm install ${PACKAGE_NAME}`);
     expect(Object.keys(document.snippets).sort()).toEqual([
       "catalogue_filter",
       "cli",
@@ -97,8 +102,8 @@ describe("snippets.json", () => {
     const exported = new Set(Object.keys(await import("../src/index.js")));
     for (const [name, source] of Object.entries(document.snippets)) {
       if (name === "cli") continue;
-      const imports = source.match(/import \{([^}]+)\} from "ngano"/);
-      expect(imports, `${name} must import from ngano`).not.toBeNull();
+      const imports = source.match(new RegExp(`import \\{([^}]+)\\} from "${PACKAGE_NAME}"`));
+      expect(imports, `${name} must import from ${PACKAGE_NAME}`).not.toBeNull();
       for (const symbol of (imports?.[1] ?? "").split(",")) {
         const trimmed = symbol.trim();
         if (trimmed) expect(exported, `${name} imports ${trimmed}`).toContain(trimmed);

@@ -21,7 +21,7 @@ import { fileURLToPath } from "node:url";
 const pkgRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
 const snippets = {
-  catalogue_filter: `import { Catalogue } from "ngano";
+  catalogue_filter: `import { Catalogue } from "@thisisisheanesu/ngano";
 
 // The catalogue ships inside the package, so this needs no network.
 const cat = new Catalogue();
@@ -41,7 +41,7 @@ for (const dataset of datasets) {
 }
 `,
 
-  stream_filter: `import { load } from "ngano";
+  stream_filter: `import { load } from "@thisisisheanesu/ngano";
 
 const stream = load({
   language: "{{LANGUAGE}}",
@@ -67,7 +67,7 @@ for (const failure of stream.errors) {
 }
 `,
 
-  single_dataset: `import { loadDataset } from "ngano";
+  single_dataset: `import { loadDataset } from "@thisisisheanesu/ngano";
 
 let count = 0;
 
@@ -82,7 +82,7 @@ for await (const row of loadDataset("{{HF_REPO}}", {
 }
 `,
 
-  language_page: `import { Catalogue, load } from "ngano";
+  language_page: `import { Catalogue, load } from "@thisisisheanesu/ngano";
 
 const cat = new Catalogue();
 
@@ -100,7 +100,7 @@ for await (const row of stream) {
 }
 `,
 
-  country_page: `import { Catalogue } from "ngano";
+  country_page: `import { Catalogue } from "@thisisisheanesu/ngano";
 
 const cat = new Catalogue();
 
@@ -112,7 +112,7 @@ for (const dataset of cat.datasets({ country: "{{COUNTRY_ISO2}}", hfOnly: true }
 }
 `,
 
-  dataset_page: `import { Catalogue, loadDataset } from "ngano";
+  dataset_page: `import { Catalogue, loadDataset } from "@thisisisheanesu/ngano";
 
 const cat = new Catalogue();
 const dataset = cat.get("{{DATASET_ID}}");
@@ -129,7 +129,7 @@ if (dataset?.hfRepo) {
 }
 `,
 
-  cli: `npm install -g ngano
+  cli: `npm install -g @thisisisheanesu/ngano
 
 # Languages are BCP 47 tags: sna, eng-NG, por-MZ. Names resolve to them too.
 ngano search --language {{LANGUAGE}} --task {{TASK}} --commercial --limit 10
@@ -145,8 +145,8 @@ ngano load --language {{LANGUAGE}} --country {{COUNTRY_ISO2}} --commercial \\
 
 const document = {
   language: "javascript",
-  install: "npm install ngano",
-  package: "ngano",
+  install: "npm install @thisisisheanesu/ngano",
+  package: "@thisisisheanesu/ngano",
   runtimes: ["node>=18", "deno", "bun", "browser"],
   placeholders: [
     "{{LANGUAGE}}",

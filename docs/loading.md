@@ -58,7 +58,7 @@ interleaves lazily, so breaking after N rows genuinely stops the download.
 === "JavaScript"
 
     ```js
-    import { Catalogue, load } from "ngano";
+    import { Catalogue, load } from "@thisisisheanesu/ngano";
 
     const cat = await Catalogue.load();
     const picks = cat.search({ language: "Hausa", access: "Open", hfOnly: true });
@@ -172,7 +172,7 @@ Inspect what the loader decided before you trust it:
 === "JavaScript"
 
     ```js
-    import { Catalogue, fieldMapFor } from "ngano";
+    import { Catalogue, fieldMapFor } from "@thisisisheanesu/ngano";
 
     const ds = (await Catalogue.load()).get("afrispeech-200");
     console.log(fieldMapFor(ds));

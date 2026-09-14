@@ -19,13 +19,13 @@ them.
 ## Install
 
 ```sh
-npm install ngano
+npm install @thisisisheanesu/ngano
 ```
 
 ## The catalogue, offline
 
 ```ts
-import { Catalogue, Filter } from "ngano";
+import { Catalogue, Filter } from "@thisisisheanesu/ngano";
 
 const cat = new Catalogue();                    // bundled snapshot, zero network
 
@@ -100,7 +100,7 @@ languages": those carry no tags and a `languageNote` saying so.
 The registry itself is bundled as `language_codes.json` and reachable directly:
 
 ```ts
-import { LANGUAGE_CODES, LANGUAGE_TAGS, languageName, resolveLanguage } from "ngano";
+import { LANGUAGE_CODES, LANGUAGE_TAGS, languageName, resolveLanguage } from "@thisisisheanesu/ngano";
 
 LANGUAGE_TAGS.length;            // 315 tags, 27 of them regional
 languageName("eng-NG");          // "English (Nigeria)"
@@ -110,7 +110,7 @@ LANGUAGE_CODES.codes["sna"];     // { tag, iso639_3, region, name, scope, type, 
 ## Streaming rows
 
 ```ts
-import { load } from "ngano";
+import { load } from "@thisisisheanesu/ngano";
 
 for await (const row of load({
   language: ["sna", "nde"],
@@ -133,7 +133,7 @@ for await (const row of load({
 One Hugging Face repo, catalogued or not:
 
 ```ts
-import { loadDataset } from "ngano";
+import { loadDataset } from "@thisisisheanesu/ngano";
 
 for await (const row of loadDataset("google/fleurs", { config: "sw_ke" })) {
   console.log(row.transcript, row.languageTag, row.languageIso);
@@ -220,7 +220,7 @@ page where access is granted. Pass `onError: "throw"` to fail on the first error
 callback to log and continue.
 
 ```ts
-import { NganoGatedError } from "ngano";
+import { NganoGatedError } from "@thisisisheanesu/ngano";
 
 try {
   await load({ id: "some-gated-dataset" }).toArray(10);
@@ -260,7 +260,7 @@ the table did not.
 An unknown schema degrades to "everything in `extra`". The mapper never throws.
 
 ```ts
-import { buildMapping, FIELD_MAP } from "ngano";
+import { buildMapping, FIELD_MAP } from "@thisisisheanesu/ngano";
 
 buildMapping(["Text", "WAV_PATH"], "odd/corpus", FIELD_MAP).fields.audio;  // "WAV_PATH"
 buildMapping(["Text", "blob_ref"], "odd/corpus", FIELD_MAP).extra;         // ["blob_ref"]
@@ -269,13 +269,13 @@ buildMapping(["Text", "blob_ref"], "odd/corpus", FIELD_MAP).extra;         // ["
 ## CLI
 
 ```sh
-npx ngano search parliament --limit 10
-npx ngano show google/fleurs
-npx ngano countries --language sna
-npx ngano languages --limit 20
-npx ngano languages --language eng --include-varieties
-npx ngano stats --json
-npx ngano load --language sna --commercial --limit 500 --out shona.jsonl
+npx @thisisisheanesu/ngano search parliament --limit 10
+npx @thisisisheanesu/ngano show google/fleurs
+npx @thisisisheanesu/ngano countries --language sna
+npx @thisisisheanesu/ngano languages --limit 20
+npx @thisisisheanesu/ngano languages --language eng --include-varieties
+npx @thisisisheanesu/ngano stats --json
+npx @thisisisheanesu/ngano load --language sna --commercial --limit 500 --out shona.jsonl
 ```
 
 `ngano languages` lists one row per tag, with its bare ISO 639-3 code and its canonical
@@ -300,7 +300,7 @@ npm run sync-data     # refresh from <repo>/data, also run by npm run build
 Neither is edited by hand, and this package never edits the repository's `data/`.
 
 ```ts
-import { CATALOGUE, COUNTRIES, LANGUAGES, LANGUAGE_CODES, FIELD_MAP } from "ngano";
+import { CATALOGUE, COUNTRIES, LANGUAGES, LANGUAGE_CODES, FIELD_MAP } from "@thisisisheanesu/ngano";
 ```
 
 ## Runtimes
@@ -308,7 +308,7 @@ import { CATALOGUE, COUNTRIES, LANGUAGES, LANGUAGE_CODES, FIELD_MAP } from "ngan
 | Runtime | Support |
 | --- | --- |
 | Node 18+ | ESM and CJS, plus the `ngano` bin |
-| Deno | ESM, `npm:ngano` |
+| Deno | ESM, `npm:@thisisisheanesu/ngano` |
 | Bun | ESM and CJS |
 | Browsers | ESM, global `fetch`, no Node built-ins in the library bundle |
 

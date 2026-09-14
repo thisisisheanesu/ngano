@@ -295,7 +295,7 @@ describe('get_loader_snippet', () => {
     const result = out.structuredContent as unknown as SnippetResult;
     expect(Object.keys(result.snippets).sort()).toEqual(['javascript', 'python', 'rust']);
     expect(result.snippets.python?.install).toBe('pip install ngano');
-    expect(result.snippets.javascript?.install).toBe('npm install ngano');
+    expect(result.snippets.javascript?.install).toBe('npm install @thisisisheanesu/ngano');
     expect(result.snippets.rust?.install).toBe('cargo add ngano');
     expect(result.snippets.python?.blocks.length).toBeGreaterThan(0);
     for (const block of everyBlock(result)) expect(block.code.length).toBeGreaterThan(20);

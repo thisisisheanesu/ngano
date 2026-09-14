@@ -1,5 +1,5 @@
 {
-  "name": "ngano",
+  "name": "@thisisisheanesu/ngano",
   "version": "0.1.0",
   "description": "Open catalogue and streaming loader for African-language speech datasets. Zero dependencies, works in Node, Deno, Bun and the browser.",
   "keywords": [
@@ -14,6 +14,9 @@
     "corpus"
   ],
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "author": "Isheanesu Nigel Misi",
   "homepage": "https://ngano.dev",
   "repository": {
