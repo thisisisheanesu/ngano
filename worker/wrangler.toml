@@ -16,6 +16,13 @@ custom_domain = true
 pattern = "www.ngano.dev"
 custom_domain = true
 
+# Per-country request counts, written by the Worker itself. Free tier on Workers, no
+# client-side beacon, and it sees the API and the MCP endpoint too, which a page script
+# never could. See src/analytics.ts for what is and is not recorded.
+[[analytics_engine_datasets]]
+binding = "ANALYTICS"
+dataset = "ngano_requests"
+
 [vars]
 VERSION = "0.1.0"
 BASE_URL = "https://ngano.dev"

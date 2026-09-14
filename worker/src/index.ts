@@ -12,6 +12,7 @@ import { handleMcp } from './mcp.js';
 import { CACHE_CONTROL_LONG, cors, error, etag, html, json, matchesEtag, notModified, preflight, text } from './http.js';
 import { countries, datasets, fieldMap, geo, getContext, languageCodes, languages, snippets, type Env } from './data.js';
 import type { SiteContext } from './types.js';
+import { record, surfaceOf } from './analytics.js';
 import {
   renderCountry,
   renderCredits,
@@ -163,11 +164,24 @@ export async function handleRequest(req: Request, env: Env): Promise<Response> {
 
 export default {
   async fetch(req: Request, env: Env): Promise<Response> {
+    let response: Response;
     try {
-      return await handleRequest(req, env);
+      response = await handleRequest(req, env);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Unhandled error.';
-      return error('internal_error', message, 500);
+      response = error('internal_error', message, 500);
     }
+    /*
+     * One counting point, after the response exists, so the status is the real one and
+     * a new route cannot be added without it being counted. Never awaited: the write is
+     * fire and forget and the reader should not wait on a statistic.
+     */
+    try {
+      const path = normalisePath(new URL(req.url).pathname);
+      record(env, req, path, surfaceOf(path), response.status);
+    } catch {
+      /* A bad URL is not worth failing a response that already succeeded. */
+    }
+    return response;
   },
 } satisfies ExportedHandler<Env>;

@@ -433,6 +433,12 @@ const baseContext: SiteContext = {
 export interface Env {
   BASE_URL?: string;
   VERSION?: string;
+  /**
+   * Workers Analytics Engine. Optional on purpose: `wrangler dev`, the test runner and
+   * anyone who deploys their own copy without the binding all run without it, and the
+   * site must not care.
+   */
+  ANALYTICS?: AnalyticsEngineDataset;
 }
 
 const contextCache = new Map<string, SiteContext>();
