@@ -13,6 +13,7 @@ import { CACHE_CONTROL_LONG, cors, error, etag, html, json, matchesEtag, notModi
 import { countries, datasets, fieldMap, geo, getContext, languageCodes, languages, snippets, type Env } from './data.js';
 import type { SiteContext } from './types.js';
 import { record, surfaceOf } from './analytics.js';
+import { num } from './site/util.js';
 import { adminEnabled, handleAdmin } from './admin/index.js';
 import {
   renderCountry,
@@ -80,10 +81,64 @@ function robots(ctx: SiteContext): string {
     `# API:  ${ctx.baseUrl}/api/v1`,
     `# MCP:  ${ctx.baseUrl}/mcp`,
     `# Data: ${ctx.baseUrl}/data/catalogue.json`,
+    `# What this site is, for language models: ${ctx.baseUrl}/llms.txt`,
     '',
     `Sitemap: ${ctx.baseUrl}/sitemap.xml`,
     '',
   ].join('\n');
+}
+
+/**
+ * `llms.txt`, the convention for telling a language model what a site is and where its
+ * machine-readable surfaces are, without making it parse the HTML to find out.
+ *
+ * ngano is unusually well suited to it: the whole catalogue is already a documented
+ * JSON API and a single downloadable file, so the honest answer to "what is here and
+ * how do I read it" is four URLs rather than a crawl. Every figure is taken from the
+ * catalogue at request time, so this file cannot drift from the site.
+ */
+function llmsTxt(ctx: SiteContext): string {
+  const { stats } = ctx;
+  return `# ngano
+
+> An open catalogue of ${num(stats.datasets)} African-language speech datasets covering ${num(stats.languages)} language tags across ${num(stats.countries)} countries, with ${num(Math.round(stats.hours))} verified hours of audio, and a loader that streams any of them into one row shape from Python, JavaScript or Rust.
+
+ngano is a catalogue of sources, not a mirror. Nothing is rehosted. Every figure is the
+one the source published, and self-reported totals of 20,000 hours or more are flagged
+and excluded from every total. The catalogue is CC-BY-4.0; each dataset keeps the licence
+its publisher set. It is in beta: records are still being added and corrected.
+
+## Read it as data, not HTML
+
+- [Whole catalogue as one JSON file](${ctx.baseUrl}/data/catalogue.json): every record, no pagination, no key.
+- [JSON API](${ctx.baseUrl}/api/v1/datasets): filter by language, country, task, licence. No auth, no rate limit.
+- [Aggregate statistics](${ctx.baseUrl}/api/v1/stats): totals and per-facet breakdowns.
+- [OpenAPI document](${ctx.baseUrl}/api/v1/openapi.json): the full API contract.
+- [Row schema](${ctx.baseUrl}/api/v1/schema): the canonical row every SDK yields.
+- [MCP server](${ctx.baseUrl}/mcp): eight tools over HTTP, for agents that would rather call than scrape.
+
+## Pages
+
+- [Overview](${ctx.baseUrl}/): what the catalogue is and what the numbers mean.
+- [Map](${ctx.baseUrl}/map): speech data by country, including the countries with none.
+- [Countries](${ctx.baseUrl}/countries): all ${num(ctx.countries.length)}, with hours, datasets and licences.
+- [Languages](${ctx.baseUrl}/languages): all ${num(stats.languages)} tags, each with its own page.
+- [API and SDK reference](${ctx.baseUrl}/docs): endpoints, MCP tools, and code for all three SDKs.
+- [Credits and citation](${ctx.baseUrl}/credits): who made it and how to cite it.
+
+## Install
+
+\`\`\`
+pip install ngano
+npm install @thisisisheanesu/ngano
+cargo add ngano
+\`\`\`
+
+## Optional
+
+- [Methodology](https://github.com/thisisisheanesu/ngano/blob/main/docs/methodology.md): how records were found, de-duplicated and verified.
+- [Source](https://github.com/thisisisheanesu/ngano): MIT, including the Worker that serves this.
+`;
 }
 
 /**
@@ -152,6 +207,7 @@ export async function handleRequest(req: Request, env: Env): Promise<Response> {
   }
 
   if (path === '/robots.txt') return text(robots(ctx));
+  if (path === '/llms.txt') return text(llmsTxt(ctx));
   if (path === '/sitemap.xml') return text(sitemap(ctx), { type: 'application/xml; charset=utf-8' });
 
   // Stylesheet, scripts, favicon and social card, straight from the site module.

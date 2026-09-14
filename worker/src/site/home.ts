@@ -36,6 +36,48 @@ export function renderHome(ctx: SiteContext): string {
   const withHours = ctx.datasets.filter((d) => d.hours_num !== null && !d.unverified_size).length;
   const hfCount = ctx.datasets.filter((d) => d.hf_repo !== null).length;
 
+  /*
+   * Two objects, not one. WebSite is what a general crawler reads; DataCatalog is what
+   * a dataset-aware one reads, and it is the thing that lets the 611 Dataset records on
+   * the individual pages be understood as one collection rather than as strays. Google
+   * Dataset Search and anything modelled on it key off exactly this pair.
+   */
+  const catalogueLd = {
+    '@context': 'https://schema.org',
+    '@type': 'DataCatalog',
+    name: 'ngano',
+    alternateName: SITE_TAGLINE,
+    url: ctx.baseUrl,
+    description: `An open catalogue of ${stats.datasets} African-language speech datasets covering ${stats.languages} language tags across ${stats.countries} countries, with ${Math.round(stats.hours)} verified hours of audio.`,
+    license: 'https://creativecommons.org/licenses/by/4.0/',
+    isAccessibleForFree: true,
+    inLanguage: 'en',
+    keywords: [
+      'African languages',
+      'speech datasets',
+      'automatic speech recognition',
+      'text to speech',
+      'low-resource languages',
+      'speech corpus',
+    ],
+    creator: { '@type': 'Person', name: ctx.credits.author.name },
+    distribution: [
+      {
+        '@type': 'DataDownload',
+        encodingFormat: 'application/json',
+        contentUrl: `${ctx.baseUrl}/data/catalogue.json`,
+        name: 'The whole catalogue as one JSON file',
+      },
+      {
+        '@type': 'DataDownload',
+        encodingFormat: 'application/json',
+        contentUrl: `${ctx.baseUrl}/api/v1/datasets`,
+        name: 'JSON API, filterable and paged',
+      },
+    ],
+    measurementTechnique: 'Sources are catalogued as published; nothing is rehosted.',
+  };
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
@@ -191,7 +233,7 @@ export function renderHome(ctx: SiteContext): string {
       title: SITE_TAGLINE,
       description: `A catalogue of ${num(stats.datasets)} African-language speech datasets covering ${num(stats.languages)} ISO 639-3 language tags and ${num(stats.countries)} countries, with a unified loader for Python, JavaScript and Rust, a free JSON API and an MCP server.`,
       path: '/',
-      jsonLd,
+      jsonLd: [jsonLd, catalogueLd],
       scripts: ['/map.js'],
     },
     body,
