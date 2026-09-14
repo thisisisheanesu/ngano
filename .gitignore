@@ -40,7 +40,7 @@ worker/.dev.vars
 .dev.vars
 
 # Docs
-site/
+/site/
 .cache/
 
 # Editors and OS
