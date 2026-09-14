@@ -3,7 +3,7 @@
 You are one of several agents building `ngano`, a production-ready open catalogue and data
 loader for African-language speech (and later text) datasets.
 
-Repo root: `/home/claude/ngano`. Work ONLY inside the paths you are assigned.
+Work ONLY inside the paths you are assigned.
 Do not edit `SPEC.md`, `data/*.json`, or another agent's directory.
 
 - Project name: `ngano` (Shona: folk stories, the oral tradition)

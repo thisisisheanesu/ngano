@@ -140,7 +140,7 @@ export async function handleRequest(req: Request, env: Env): Promise<Response> {
   // They are generated strings, so they change only when the Worker is redeployed.
   const asset = siteAssets[path === '/favicon.ico' ? '/favicon.svg' : path];
   if (asset) {
-    const tag = etag(`${path}:${ctx.version}:${asset.body.length}`);
+    const tag = etag(`${path}:${asset.body}`);
     if (matchesEtag(req, tag)) return notModified(tag, CACHE_CONTROL_LONG);
     return cors(
       new Response(asset.body, {

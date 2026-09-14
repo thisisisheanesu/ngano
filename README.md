@@ -257,7 +257,7 @@ Read this before you quote a number from ngano in a paper.
 
 _Building African language AI._
 
-Co-founder and CTO of Vambo AI, working on speech and language models for African languages. ngano grew out of the search for training data that this catalogue documents.
+Works on speech and language models for African languages. ngano grew out of the search for training data that this catalogue documents.
 
 | Where | Handle |
 | --- | --- |
