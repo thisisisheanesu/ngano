@@ -13,11 +13,19 @@ One data point per request, written to Workers Analytics Engine:
 | --- | --- |
 | index | The country Cloudflare resolved, which is also the sampling key |
 | blob1 | Country |
-| blob2 | Surface: `site`, `api`, `mcp`, `data` or `asset` |
+| blob2 | Surface: `site`, `api`, `mcp`, `admin` or `data` |
 | blob3 | Route pattern, so `/countries/zw` and `/countries/ng` share `/countries/:iso2` |
 | blob4 | Response status |
 | blob5 | Cloudflare colo |
 | double1 | 1 |
+
+Assets are **not** recorded at all. The stylesheet, the scripts and the icons are pulled
+by pages that are already counted, so counting them again measures cache misses rather
+than readers, and it crowds the route breakdown with rows nobody will act on.
+
+The admin dashboard is its own surface rather than part of `site`, so reading your own
+statistics does not inflate the page views. The headline total on the dashboard excludes
+it.
 
 ## What is not recorded
 

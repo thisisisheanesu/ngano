@@ -16,8 +16,14 @@
 
 import type { Env } from './data.js';
 
-/** What was asked for, coarse enough to be worth grouping by. */
-export type Surface = 'site' | 'api' | 'mcp' | 'data' | 'asset';
+/**
+ * What was asked for, coarse enough to be worth grouping by.
+ *
+ * `asset` exists so those requests can be recognised and dropped. The stylesheet and
+ * the scripts are loaded by the pages that are already counted, so counting them again
+ * measures nothing except how often the browser cache missed.
+ */
+export type Surface = 'site' | 'api' | 'mcp' | 'admin' | 'data' | 'asset';
 
 /**
  * Collapse a path to its route pattern, so `/countries/zw` and `/countries/ng` are one
@@ -45,6 +51,8 @@ export function routeLabel(path: string): string {
 export function surfaceOf(path: string): Surface {
   if (path === '/mcp') return 'mcp';
   if (path.startsWith('/api/v1')) return 'api';
+  /* Before the site check: my own visits are not page views. */
+  if (path === '/admin' || path.startsWith('/admin/')) return 'admin';
   if (path.startsWith('/data/')) return 'data';
   if (/^\/(styles\.css|site\.js|map\.js|filter\.js|favicon\.(svg|ico)|og\.svg|robots\.txt|sitemap\.xml)$/.test(path)) {
     return 'asset';
@@ -68,6 +76,13 @@ export function record(
 ): void {
   const dataset = env.ANALYTICS;
   if (!dataset) return;
+  /*
+   * The stylesheet, the scripts and the icons are not interesting. Every one of them is
+   * pulled by a page that is already counted, so recording them inflates the totals with
+   * a number that really measures cache misses, and it crowds the route breakdown with
+   * rows nobody is going to act on.
+   */
+  if (surface === 'asset') return;
   try {
     const country = (req.cf?.country as string | undefined) ?? 'XX';
     const colo = (req.cf?.colo as string | undefined) ?? '';

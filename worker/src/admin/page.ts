@@ -176,6 +176,32 @@ ${bars}
 </figure>`;
 }
 
+/**
+ * `ZW` means nothing at a glance; `Zimbabwe` does. `Intl.DisplayNames` is in the Workers
+ * runtime already, so this costs no bundle and stays current, which a hand-kept list of
+ * 250 country names would not. An unknown or made-up code falls back to itself.
+ */
+const REGION_NAMES = (() => {
+  try {
+    return new Intl.DisplayNames(['en'], { type: 'region' });
+  } catch {
+    return null;
+  }
+})();
+
+export function countryName(code: string): string {
+  const key = (code || '').toUpperCase();
+  /* Digits allowed: Cloudflare reports T1 for traffic arriving over Tor. */
+  if (!/^[A-Z0-9]{2}$/.test(key)) return 'Unknown';
+  try {
+    const name = REGION_NAMES?.of(key);
+    return name || key;
+  } catch {
+    /* ICU rejects codes that are not real regions, T1 among them. Show it as it came. */
+    return key;
+  }
+}
+
 function shortDate(iso: string): string {
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return iso;
@@ -200,10 +226,15 @@ export function dashboardPage(d: DashboardData): string {
   ).join('');
 
   const topCountry = t.countries[0];
-  const siteRequests = t.surfaces.find((s) => s.key === 'site')?.requests ?? 0;
-  const apiRequests =
-    (t.surfaces.find((s) => s.key === 'api')?.requests ?? 0) +
-    (t.surfaces.find((s) => s.key === 'mcp')?.requests ?? 0);
+  const on = (key: string) => t.surfaces.find((s) => s.key === key)?.requests ?? 0;
+  /* Kept apart on purpose: my own admin visits are not page views, and an MCP client
+     calling tools is not a person reading the site. */
+  const pageRequests = on('site');
+  const apiRequests = on('api');
+  const mcpRequests = on('mcp');
+  const adminRequests = on('admin');
+  const dataRequests = on('data');
+  const publicTotal = t.total - adminRequests;
 
   const body = `
 <header style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:6px">
@@ -231,13 +262,16 @@ ${
 
 <section class="block panel">
   <h2 class="sec">Traffic</h2>
-  <p class="note" style="margin:0 0 16px">Requests that reached the Worker in the last ${esc(RANGES.find((r) => r.days === d.days)?.label ?? `${d.days} days`)}. Cloudflare answers repeat requests from its edge cache without running the Worker, so this undercounts, more for assets than for the API.</p>
+  <p class="note" style="margin:0 0 16px">Requests that reached the Worker in the last ${esc(RANGES.find((r) => r.days === d.days)?.label ?? `${d.days} days`)}. The stylesheet, scripts and icons are not counted at all: they are pulled by pages that are already counted. Cloudflare answers repeat requests from its edge cache without running the Worker, so a page someone revisits inside the hour is missed.</p>
   <div class="bignums">
-    <div class="bn hi"><div class="v">${esc(num(t.total))}</div><div class="k">requests counted</div></div>
+    <div class="bn hi"><div class="v">${esc(num(publicTotal))}</div><div class="k">requests, excluding admin</div></div>
+    <div class="bn"><div class="v">${esc(num(pageRequests))}</div><div class="k">page views</div></div>
+    <div class="bn"><div class="v">${esc(num(apiRequests))}</div><div class="k">API calls</div></div>
+    <div class="bn"><div class="v">${esc(num(mcpRequests))}</div><div class="k">MCP calls</div></div>
+    <div class="bn"><div class="v">${esc(num(dataRequests))}</div><div class="k">raw data downloads</div></div>
     <div class="bn"><div class="v">${esc(num(t.countries.length))}</div><div class="k">countries</div></div>
-    <div class="bn"><div class="v">${esc(topCountry ? topCountry.key : 'none')}</div><div class="k">busiest country</div></div>
-    <div class="bn"><div class="v">${esc(num(siteRequests))}</div><div class="k">page views</div></div>
-    <div class="bn"><div class="v">${esc(num(apiRequests))}</div><div class="k">API and MCP calls</div></div>
+    <div class="bn"><div class="v">${esc(topCountry ? countryName(topCountry.key) : 'none')}</div><div class="k">busiest country</div></div>
+    <div class="bn"><div class="v">${esc(num(adminRequests))}</div><div class="k">your own admin visits</div></div>
   </div>
 </section>
 
@@ -248,7 +282,7 @@ ${
 
 <section class="block">
   <div class="grid g2">
-    ${breakdown('By country', t.countries.slice(0, 25), 'Nothing recorded yet.')}
+    ${breakdown('By country', t.countries.slice(0, 25), 'Nothing recorded yet.', countryName)}
     ${breakdown('What was asked for', t.surfaces, 'Nothing recorded yet.', surfaceLabel)}
   </div>
 </section>
@@ -266,14 +300,14 @@ ${
   <div class="tscroll">
     <table class="tbl">
       <caption class="sr">Requests per country</caption>
-      <thead><tr><th scope="col">Country</th><th scope="col" class="r">Requests</th><th scope="col" class="r">Share</th></tr></thead>
+      <thead><tr><th scope="col">Country</th><th scope="col">Code</th><th scope="col" class="r">Requests</th><th scope="col" class="r">Share</th></tr></thead>
       <tbody>${
         t.countries.length === 0
-          ? '<tr><td colspan="3">Nothing recorded yet.</td></tr>'
+          ? '<tr><td colspan="4">Nothing recorded yet.</td></tr>'
           : t.countries
               .map(
                 (r) =>
-                  `<tr><th scope="row" style="font-weight:600"><code class="inl">${esc(r.key || 'XX')}</code></th><td class="r">${esc(num(r.requests))}</td><td class="r">${t.total ? ((r.requests / t.total) * 100).toFixed(1) : '0.0'}%</td></tr>`,
+                  `<tr><th scope="row" style="font-weight:600">${esc(countryName(r.key))}</th><td><code class="inl">${esc(r.key || 'XX')}</code></td><td class="r">${esc(num(r.requests))}</td><td class="r">${t.total ? ((r.requests / t.total) * 100).toFixed(1) : '0.0'}%</td></tr>`,
               )
               .join('')
       }</tbody>
@@ -298,8 +332,9 @@ function surfaceLabel(key: string): string {
     site: 'Pages',
     api: 'JSON API',
     mcp: 'MCP server',
+    admin: 'This dashboard',
     data: 'Raw data files',
-    asset: 'CSS, JS and icons',
+    asset: 'CSS, JS and icons (no longer counted)',
   };
   return labels[key] ?? key;
 }
