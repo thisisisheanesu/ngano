@@ -1,0 +1,96 @@
+name: Bug report
+description: Something in a package, the API or the MCP server is broken
+title: "[bug] "
+labels: ["bug", "needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For a wrong value in a catalogue record, use the correction template
+        instead. For a security problem, do not open an issue, see
+        [SECURITY.md](../blob/main/SECURITY.md).
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      options:
+        - Python package (ngano on PyPI)
+        - JavaScript package (ngano on npm)
+        - Rust crate (ngano on crates.io)
+        - HTTP API (ngano.dev/api/v1)
+        - MCP server (ngano.dev/mcp)
+        - Website
+        - Documentation
+        - Build, CI or release
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: >-
+        Package version, or the `version` field from
+        `https://ngano.dev/api/v1/healthz` for the API and MCP server.
+      placeholder: 0.1.0
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Language runtime version and operating system.
+      placeholder: Python 3.11.9 on macOS 15.1, or Node 20.18 on Ubuntu 24.04
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected to happen
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: What actually happened
+      description: Include the full error and traceback if there is one.
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Minimal reproduction
+      description: >-
+        The smallest code or curl command that shows the problem. This is
+        rendered as a shell block, no backticks needed.
+      render: shell
+      placeholder: |
+        from ngano import Catalogue
+        cat = Catalogue.load()
+        cat.search(language="Shona")
+    validations:
+      required: true
+
+  - type: input
+    id: dataset
+    attributes:
+      label: Dataset id
+      description: If the bug involves loading one specific dataset, which one.
+      placeholder: google/fleurs
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you file
+      options:
+        - label: I am on the latest release of the component.
+          required: true
+        - label: I have searched existing issues.
+          required: true
+        - label: This reproduction contains no credentials, including no Hugging Face token.
+          required: true

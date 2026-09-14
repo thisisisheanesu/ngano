@@ -1,0 +1,307 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`GET /api/v1/stats > matches the snapshot 1`] = `
+{
+  "by_access": [
+    {
+      "datasets": 441,
+      "hours": 72106.4,
+      "value": "Open",
+    },
+    {
+      "datasets": 87,
+      "hours": 21553.5,
+      "value": "Request",
+    },
+    {
+      "datasets": 47,
+      "hours": 12409.5,
+      "value": "Scrape required",
+    },
+    {
+      "datasets": 37,
+      "hours": 4680.5,
+      "value": "Paid",
+    },
+  ],
+  "by_commercial": [
+    {
+      "datasets": 253,
+      "hours": 19957.6,
+      "value": "Unstated",
+    },
+    {
+      "datasets": 204,
+      "hours": 59824.5,
+      "value": "Yes",
+    },
+    {
+      "datasets": 118,
+      "hours": 26287.3,
+      "value": "No",
+    },
+    {
+      "datasets": 37,
+      "hours": 4680.5,
+      "value": "Yes, if purchased",
+    },
+  ],
+  "by_domain": [
+    {
+      "datasets": 311,
+      "hours": 48096.2,
+      "value": "General / unstated",
+    },
+    {
+      "datasets": 99,
+      "hours": 23883.7,
+      "value": "Read / prompted",
+    },
+    {
+      "datasets": 64,
+      "hours": 13045.9,
+      "value": "Religious / scripture",
+    },
+    {
+      "datasets": 60,
+      "hours": 10389.3,
+      "value": "Broadcast news",
+    },
+    {
+      "datasets": 27,
+      "hours": 1783.1,
+      "value": "Call centre / telephony",
+    },
+    {
+      "datasets": 20,
+      "hours": 775.1,
+      "value": "Conversational",
+    },
+    {
+      "datasets": 16,
+      "hours": 5773.2,
+      "value": "Health / clinical",
+    },
+    {
+      "datasets": 9,
+      "hours": 3721.2,
+      "value": "Parliament / government",
+    },
+    {
+      "datasets": 4,
+      "hours": 3130,
+      "value": "Agriculture",
+    },
+    {
+      "datasets": 2,
+      "hours": 152.3,
+      "value": "Finance",
+    },
+  ],
+  "by_labelled": [
+    {
+      "datasets": 454,
+      "hours": 89322.1,
+      "value": "Transcribed",
+    },
+    {
+      "datasets": 118,
+      "hours": 21413.1,
+      "value": "Unlabelled",
+    },
+    {
+      "datasets": 40,
+      "hours": 14.7,
+      "value": "Unstated",
+    },
+  ],
+  "by_licence_class": [
+    {
+      "datasets": 252,
+      "hours": 19957.6,
+      "value": "Unstated",
+    },
+    {
+      "datasets": 131,
+      "hours": 50091.3,
+      "value": "Attribution (CC-BY)",
+    },
+    {
+      "datasets": 58,
+      "hours": 7832.5,
+      "value": "NonCommercial",
+    },
+    {
+      "datasets": 38,
+      "hours": 6902.2,
+      "value": "Research only",
+    },
+    {
+      "datasets": 28,
+      "hours": 13058.7,
+      "value": "NonCommercial + NoDerivatives",
+    },
+    {
+      "datasets": 27,
+      "hours": 563.8,
+      "value": "Attribution + ShareAlike",
+    },
+    {
+      "datasets": 26,
+      "hours": 3166.5,
+      "value": "Commercial (purchase)",
+    },
+    {
+      "datasets": 21,
+      "hours": 9000.4,
+      "value": "Public domain / CC0",
+    },
+    {
+      "datasets": 20,
+      "hours": 169,
+      "value": "Permissive (MIT / Apache)",
+    },
+    {
+      "datasets": 5,
+      "hours": 0,
+      "value": "Open (unspecified)",
+    },
+    {
+      "datasets": 5,
+      "hours": 7.9,
+      "value": "Restricted (NOODL)",
+    },
+    {
+      "datasets": 1,
+      "hours": 0,
+      "value": "Other",
+    },
+  ],
+  "by_quality": [
+    {
+      "datasets": 374,
+      "hours": 68248.3,
+      "value": "Unstated",
+    },
+    {
+      "datasets": 76,
+      "hours": 6938.4,
+      "value": "Studio (44.1–48 kHz)",
+    },
+    {
+      "datasets": 65,
+      "hours": 11795,
+      "value": "Broadcast",
+    },
+    {
+      "datasets": 48,
+      "hours": 15902.2,
+      "value": "Crowdsourced / web",
+    },
+    {
+      "datasets": 30,
+      "hours": 1783.1,
+      "value": "Narrowband (8 kHz)",
+    },
+    {
+      "datasets": 19,
+      "hours": 6082.9,
+      "value": "Standard (16 kHz)",
+    },
+  ],
+  "by_region": [
+    {
+      "datasets": 208,
+      "hours": 37673.6,
+      "value": "West Africa",
+    },
+    {
+      "datasets": 135,
+      "hours": 15233.2,
+      "value": "Southern Africa",
+    },
+    {
+      "datasets": 102,
+      "hours": 19914.3,
+      "value": "East Africa",
+    },
+    {
+      "datasets": 73,
+      "hours": 10587.7,
+      "value": "North Africa",
+    },
+    {
+      "datasets": 59,
+      "hours": 3454,
+      "value": "Central Africa",
+    },
+    {
+      "datasets": 59,
+      "hours": 9324,
+      "value": "Horn of Africa",
+    },
+    {
+      "datasets": 43,
+      "hours": 1057,
+      "value": "Island states",
+    },
+  ],
+  "by_task": [
+    {
+      "datasets": 346,
+      "hours": 70260.2,
+      "value": "ASR",
+    },
+    {
+      "datasets": 85,
+      "hours": 11175.4,
+      "value": "Raw source",
+    },
+    {
+      "datasets": 64,
+      "hours": 24052.6,
+      "value": "ASR+TTS",
+    },
+    {
+      "datasets": 60,
+      "hours": 238.1,
+      "value": "TTS",
+    },
+    {
+      "datasets": 57,
+      "hours": 5023.7,
+      "value": "Other",
+    },
+  ],
+  "by_variety": [
+    {
+      "datasets": 487,
+      "hours": 101890.4,
+      "value": "Indigenous",
+    },
+    {
+      "datasets": 64,
+      "hours": 1838.3,
+      "value": "Accented foreign",
+    },
+    {
+      "datasets": 37,
+      "hours": 3112.9,
+      "value": "Creole/Pidgin",
+    },
+    {
+      "datasets": 24,
+      "hours": 3908.3,
+      "value": "Code-switch",
+    },
+  ],
+  "countries": 57,
+  "datasets": 612,
+  "hours": 110749.9,
+  "hours_commercial": 64505,
+  "hours_open": 72106.4,
+  "language_codes": 289,
+  "languages": 315,
+  "unverified_excluded": 3,
+}
+`;

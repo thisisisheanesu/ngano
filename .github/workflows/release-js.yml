@@ -1,0 +1,126 @@
+name: Release JavaScript
+
+# Triggered by a tag of the form js-v0.1.0.
+#
+#   git tag js-v0.1.0 && git push origin js-v0.1.0
+#
+# ---------------------------------------------------------------------------
+# One-time repository settings the author must configure
+# ---------------------------------------------------------------------------
+# 1. npm: create an automation access token at
+#    https://www.npmjs.com/settings/thisisisheanesu/tokens with the Automation type,
+#    which bypasses 2FA for CI publishes.
+# 2. GitHub: Settings -> Secrets and variables -> Actions -> New repository
+#    secret, named NPM_TOKEN, holding that token.
+# 3. GitHub: Settings -> Environments -> New environment, named exactly `npm`.
+#    Scope the NPM_TOKEN secret to that environment, add yourself as a required
+#    reviewer, and restrict deployment branches and tags to js-v*.
+# 4. npm provenance requires the package to be public and the repository field
+#    in packages/js/package.json to point at this repository. The `id-token:
+#    write` permission below signs the provenance attestation.
+# 5. If the package is scoped, publish with `--access public` as well. `ngano`
+#    is unscoped, so it is public by default.
+# ---------------------------------------------------------------------------
+
+on:
+  push:
+    tags: ['js-v*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build and test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/js
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+          cache: npm
+          cache-dependency-path: packages/js/package-lock.json
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate the catalogue before shipping it
+        working-directory: .
+        run: |
+          python -m pip install --upgrade jsonschema
+          python scripts/validate_catalogue.py
+
+      - name: Install
+        run: npm ci
+
+      - name: Confirm the tag matches the package version
+        run: |
+          tag="${GITHUB_REF_NAME#js-v}"
+          version=$(node -p "require('./package.json').version")
+          echo "tag=$tag package=$version"
+          if [ "$tag" != "$version" ]; then
+            echo "tag $GITHUB_REF_NAME does not match package.json version $version"
+            exit 1
+          fi
+        if: startsWith(github.ref, 'refs/tags/')
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: js-build
+          path: |
+            packages/js/dist/
+            packages/js/src/data/
+          if-no-files-found: error
+
+  publish:
+    name: Publish to npm
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: npm
+      url: https://www.npmjs.com/package/ngano
+    permissions:
+      contents: read
+      # Required for npm provenance.
+      id-token: write
+    defaults:
+      run:
+        working-directory: packages/js
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+          cache: npm
+          cache-dependency-path: packages/js/package-lock.json
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: js-build
+          path: packages/js/
+
+      - name: Install without running lifecycle scripts
+        run: npm ci --ignore-scripts
+
+      - name: Publish with provenance
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

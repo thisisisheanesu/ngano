@@ -1,0 +1,89 @@
+version: 2
+
+updates:
+  # ---------------------------------------------------------------- Actions --
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "07:00"
+      timezone: Africa/Harare
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "ci"
+    labels: ["dependencies", "ci"]
+    groups:
+      actions:
+        patterns: ["*"]
+
+  # ----------------------------------------------------------------- Python --
+  - package-ecosystem: pip
+    directory: /packages/python
+    schedule:
+      interval: weekly
+      day: monday
+      time: "07:00"
+      timezone: Africa/Harare
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "deps(python)"
+    labels: ["dependencies", "python"]
+    groups:
+      python-dev:
+        dependency-type: development
+        patterns: ["*"]
+
+  # ------------------------------------------------------------- JavaScript --
+  - package-ecosystem: npm
+    directory: /packages/js
+    schedule:
+      interval: weekly
+      day: monday
+      time: "07:00"
+      timezone: Africa/Harare
+    open-pull-requests-limit: 5
+    versioning-strategy: increase-if-necessary
+    commit-message:
+      prefix: "deps(js)"
+    labels: ["dependencies", "javascript"]
+    groups:
+      js-dev:
+        dependency-type: development
+        patterns: ["*"]
+
+  # ------------------------------------------------------------------ Rust --
+  - package-ecosystem: cargo
+    directory: /packages/rust
+    schedule:
+      interval: weekly
+      day: monday
+      time: "07:00"
+      timezone: Africa/Harare
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "deps(rust)"
+    labels: ["dependencies", "rust"]
+    groups:
+      rust:
+        patterns: ["*"]
+
+  # ---------------------------------------------------------------- Worker --
+  - package-ecosystem: npm
+    directory: /worker
+    schedule:
+      interval: weekly
+      day: monday
+      time: "07:00"
+      timezone: Africa/Harare
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "deps(worker)"
+    labels: ["dependencies", "worker"]
+    groups:
+      worker:
+        patterns: ["*"]
+    ignore:
+      # Wrangler majors change the deployment contract. Bump it deliberately.
+      - dependency-name: wrangler
+        update-types: ["version-update:semver-major"]

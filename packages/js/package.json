@@ -1,0 +1,67 @@
+{
+  "name": "ngano",
+  "version": "0.1.0",
+  "description": "Open catalogue and streaming loader for African-language speech datasets. Zero dependencies, works in Node, Deno, Bun and the browser.",
+  "keywords": [
+    "africa",
+    "african-languages",
+    "speech",
+    "asr",
+    "tts",
+    "datasets",
+    "huggingface",
+    "catalogue",
+    "corpus"
+  ],
+  "license": "MIT",
+  "author": "Isheanesu Nigel Misi",
+  "homepage": "https://ngano.dev",
+  "type": "module",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
+  },
+  "bin": {
+    "ngano": "./dist/cli.js"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./data/*.json": "./data/*.json",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "data/catalogue.json",
+    "data/countries.json",
+    "data/languages.json",
+    "data/language_codes.json",
+    "data/field_map.json",
+    "snippets.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "sync-data": "node scripts/sync-data.mjs",
+    "prebuild": "node scripts/sync-data.mjs && node scripts/build-snippets.mjs",
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepublishOnly": "npm run build",
+    "snippets": "node scripts/build-snippets.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "esbuild": "^0.28.2",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}

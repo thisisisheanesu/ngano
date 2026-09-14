@@ -1,0 +1,47 @@
+# Normalise line endings on the way in, check out native.
+* text=auto eol=lf
+
+*.py    text diff=python
+*.rs    text diff=rust
+*.ts    text
+*.tsx   text
+*.js    text
+*.mjs   text
+*.json  text
+*.toml  text
+*.yml   text
+*.yaml  text
+*.md    text diff=markdown
+*.cff   text
+Makefile text
+
+*.bat   text eol=crlf
+*.cmd   text eol=crlf
+*.sh    text eol=lf
+
+# Binary, never diff or merge.
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.ico   binary
+*.webp  binary
+*.woff  binary
+*.woff2 binary
+*.wav   binary
+*.mp3   binary
+*.flac  binary
+*.ogg   binary
+*.opus  binary
+
+# Generated data. Diffs are enormous and never reviewed line by line, and a
+# merge of two edits is never correct. Regenerate instead.
+data/catalogue.json    linguist-generated=true merge=ours
+data/languages.json    linguist-generated=true merge=ours
+data/africa.geo.json   linguist-generated=true merge=ours -diff
+package-lock.json      linguist-generated=true -diff
+Cargo.lock             linguist-generated=true -diff
+
+# Keep these out of the language statistics on the repository page.
+docs/**        linguist-documentation=true
+examples/**    linguist-documentation=false

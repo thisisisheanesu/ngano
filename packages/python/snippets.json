@@ -1,0 +1,37 @@
+{
+  "language": "python",
+  "package": "ngano",
+  "version": "0.1.0",
+  "install": "pip install ngano",
+  "install_audio": "pip install 'ngano[audio]'",
+  "placeholders": [
+    "{{LANGUAGE}}",
+    "{{COUNTRY_ISO2}}",
+    "{{COUNTRY_NAME}}",
+    "{{DATASET_ID}}",
+    "{{HF_REPO}}",
+    "{{CONFIG}}",
+    "{{TASK}}"
+  ],
+  "placeholder_docs": {
+    "{{LANGUAGE}}": "A BCP 47 language tag, for example sna or eng-NG. The primary subtag is an ISO 639-3 three-letter code and an optional region subtag marks a country-specific variety. This is a tag, never a display name, because that is what the SDKs and the API filter on. A bare code or a catalogued name such as isiZulu is accepted too and resolves to a tag.",
+    "{{COUNTRY_ISO2}}": "An ISO 3166-1 alpha-2 country code, for example ZW.",
+    "{{COUNTRY_NAME}}": "The country's catalogue name, for example Zimbabwe.",
+    "{{DATASET_ID}}": "An ngano catalogue id, for example waxal-corpus-paper.",
+    "{{HF_REPO}}": "A Hugging Face repo id, for example google/fleurs.",
+    "{{CONFIG}}": "A configuration name of that repo, for example sn_zw.",
+    "{{TASK}}": "A catalogue task: ASR, TTS, ASR+TTS, Raw source or Other."
+  },
+  "shell_snippets": [
+    "cli"
+  ],
+  "snippets": {
+    "catalogue_filter": "from ngano import Catalogue\n\ncat = Catalogue()  # bundled snapshot, offline, no token needed\n\n# language takes a BCP 47 tag such as \"{{LANGUAGE}}\". A bare ISO 639-3 code\n# and any catalogued name, for example \"isiZulu\", resolve to a tag as well.\nrecords = cat.datasets(\n    language=\"{{LANGUAGE}}\",\n    country=\"{{COUNTRY_ISO2}}\",\n    task=\"{{TASK}}\",\n    commercial=True,          # only datasets whose commercial field is \"Yes\"\n    hf_only=True,             # only datasets that can be streamed\n    sort=\"-hours\",\n)\n\nfor record in records:\n    hours = record.hours_num if record.hours_num is not None else 0.0\n    flag = \" (unverified)\" if record.unverified_size else \"\"\n    print(f\"{record.id}  {','.join(record.language_tags)}  {hours:,.0f} h{flag}\")\n",
+    "stream_filter": "from ngano import load\n\nstream = load(\n    language=\"{{LANGUAGE}}\",       # a BCP 47 tag, for example sna or eng-NG\n    country=\"{{COUNTRY_ISO2}}\",\n    task=\"{{TASK}}\",\n    commercial=True,\n    split=\"train\",\n    limit=100,\n    interleave=\"round_robin\",   # or \"sequential\", or \"weighted_by_hours\"\n)\n\nprint(f\"{stream.matched} datasets matched, {stream.loadable} can be streamed\")\n\nfor index, row in enumerate(stream):\n    print(row.language_tag, row.duration_s, repr(row.transcript))\n    if index >= 9:\n        break  # nothing further is fetched\n",
+    "single_dataset": "from ngano import load_dataset\n\nstream = load_dataset(\"{{HF_REPO}}\", config=\"{{CONFIG}}\", split=\"train\", limit=5)\n\nfor row in stream:\n    print(row.language_tag, row.language_iso, repr(row.transcript))\n    if row.audio is not None:\n        print(\"  \", row.audio.url or row.audio.path, row.audio.sampling_rate)\n        # audio_bytes = row.audio.read()        # fetched only when you ask\n        # array, sr = row.audio.decode()        # needs pip install \"ngano[audio]\"\n",
+    "language_page": "from ngano import Catalogue, load\n\ncat = Catalogue()\n\n# \"{{LANGUAGE}}\" is a BCP 47 tag. cat.language() also takes a name or a bare code.\nlanguage = cat.language(\"{{LANGUAGE}}\")\nprint(f\"{language.name} [{language.tag}]: {language.datasets} datasets, \"\n      f\"{language.hours:,.0f} hours\")\n\nfor record in cat.datasets(language=\"{{LANGUAGE}}\", sort=\"-hours\"):\n    print(record.id, record.task, record.licence, record.hf_repo or \"not on Hugging Face\")\n\n# Stream every {{LANGUAGE}} dataset that is on Hugging Face, as one row stream.\nstream = load(language=\"{{LANGUAGE}}\", limit=50)\nfor row in stream:\n    print(row.transcript)\n",
+    "country_page": "from ngano import Catalogue\n\ncat = Catalogue()\n\nprint(\"Speech datasets recorded in {{COUNTRY_NAME}}\")\ncountry = cat.country(\"{{COUNTRY_ISO2}}\")\nprint(f\"{country.name}: {country.datasets} datasets, {country.hours:,.0f} hours, \"\n      f\"{country.languages} languages\")\n\nfor record in cat.datasets(country=\"{{COUNTRY_ISO2}}\", sort=\"-hours\"):\n    languages = \", \".join(record.languages_clean or record.languages)\n    print(f\"{record.id}  {languages}  {record.access}\")\n",
+    "dataset_page": "from ngano import Catalogue, load_dataset\n\ncat = Catalogue()\nrecord = cat.get(\"{{DATASET_ID}}\")\n\nprint(record.name)\nprint(record.language_tags, record.languages_clean, record.countries)\nprint(record.task, record.licence, record.access, record.commercial)\nprint(record.hours_num, \"hours as published\", \"(unverified)\" if record.unverified_size else \"\")\nif record.language_note:\n    print(record.language_note)   # this source describes its coverage in prose\nprint(record.url)\n\nif record.hf_repo:\n    for row in load_dataset(record.hf_repo, limit=3):\n        print(repr(row.transcript))\n",
+    "cli": "pip install ngano\n\nngano languages --min-datasets 10\nngano search --language {{LANGUAGE}} --limit 5\nngano search --language {{LANGUAGE}} --task {{TASK}} --commercial --json\nngano search --language eng --include-varieties\nngano show {{DATASET_ID}}\nngano countries --json\nngano stats\nngano load --language {{LANGUAGE}} --country {{COUNTRY_ISO2}} --hf-only --limit 20 --out rows.jsonl\n"
+  }
+}

@@ -1,0 +1,260 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # ------------------------------------------------------------------ #
+  # One filter job decides what actually needs to run. Every other job  #
+  # is conditional on it, so a docs-only pull request finishes in       #
+  # seconds while still reporting all-green.                            #
+  # ------------------------------------------------------------------ #
+  changes:
+    name: Detect changes
+    runs-on: ubuntu-latest
+    outputs:
+      python: ${{ steps.filter.outputs.python }}
+      js: ${{ steps.filter.outputs.js }}
+      rust: ${{ steps.filter.outputs.rust }}
+      worker: ${{ steps.filter.outputs.worker }}
+      data: ${{ steps.filter.outputs.data }}
+      docs: ${{ steps.filter.outputs.docs }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          # A change to data/, to the shared scripts, or to this workflow
+          # itself invalidates every package, because all three bundle the
+          # same catalogue snapshot.
+          filters: |
+            shared: &shared
+              - 'data/**'
+              - 'scripts/**'
+              - '.github/workflows/ci.yml'
+              - 'Makefile'
+            python:
+              - *shared
+              - 'packages/python/**'
+            js:
+              - *shared
+              - 'packages/js/**'
+            rust:
+              - *shared
+              - 'packages/rust/**'
+            worker:
+              - *shared
+              - 'worker/**'
+            data:
+              - 'data/**'
+              - 'scripts/**'
+              - '.github/workflows/ci.yml'
+            docs:
+              - 'docs/**'
+              - 'mkdocs.yml'
+              - 'README.md'
+
+  # ------------------------------------------------------------------ #
+  # Data. Cheap, no package dependencies, gates everything else that    #
+  # ships the catalogue.                                                #
+  # ------------------------------------------------------------------ #
+  catalogue:
+    name: Validate catalogue
+    needs: changes
+    if: needs.changes.outputs.data == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install the optional schema cross-checker
+        run: python -m pip install --upgrade jsonschema
+      - name: Validate data/catalogue.json
+        run: python scripts/validate_catalogue.py
+      - name: Check the generated README credits section
+        run: python scripts/render_readme_credits.py --check
+      - name: Print the headline numbers
+        run: python scripts/stats.py
+
+  # ------------------------------------------------------------------ #
+  # Python 3.9 to 3.13, pytest and mypy.                                #
+  # ------------------------------------------------------------------ #
+  python:
+    name: Python ${{ matrix.python-version }}
+    needs: changes
+    if: needs.changes.outputs.python == 'true'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.9', '3.10', '3.11', '3.12', '3.13']
+    defaults:
+      run:
+        working-directory: packages/python
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: packages/python/pyproject.toml
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+      - name: Check the bundled data snapshot is current
+        run: python sync_data.py --check
+      - name: Lint
+        run: python -m ruff check .
+      - name: Test
+        run: python -m pytest -q
+      - name: Typecheck
+        run: python -m mypy src/ngano
+
+  # ------------------------------------------------------------------ #
+  # Node 18, 20 and 22, vitest and tsc.                                 #
+  # ------------------------------------------------------------------ #
+  js:
+    name: Node ${{ matrix.node-version }}
+    needs: changes
+    if: needs.changes.outputs.js == 'true'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [18, 20, 22]
+    defaults:
+      run:
+        working-directory: packages/js
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+          cache-dependency-path: packages/js/package-lock.json
+      - name: Install
+        run: npm ci
+      - name: Refresh the bundled data snapshot
+        run: npm run sync-data
+      - name: Fail if the snapshot had drifted
+        run: git diff --exit-code -- src/data
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Test
+        run: npm test
+      - name: Build
+        run: npm run build
+
+  # ------------------------------------------------------------------ #
+  # Rust stable and MSRV, test, clippy and fmt.                         #
+  # ------------------------------------------------------------------ #
+  rust:
+    name: Rust ${{ matrix.toolchain }}
+    needs: changes
+    if: needs.changes.outputs.rust == 'true'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # MSRV is 1.74 and is also declared as rust-version in Cargo.toml.
+        toolchain: [stable, '1.74']
+    defaults:
+      run:
+        working-directory: packages/rust
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.toolchain }}
+          components: clippy, rustfmt
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: packages/rust
+      - name: Format
+        if: matrix.toolchain == 'stable'
+        run: cargo fmt --all -- --check
+      - name: Clippy
+        if: matrix.toolchain == 'stable'
+        run: cargo clippy --all-targets --all-features -- -D warnings
+      - name: Test
+        run: cargo test --all-features
+      - name: Build examples
+        run: cargo build --examples
+
+  # ------------------------------------------------------------------ #
+  # Cloudflare Worker, vitest and tsc.                                  #
+  # ------------------------------------------------------------------ #
+  worker:
+    name: Worker
+    needs: changes
+    if: needs.changes.outputs.worker == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: worker
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: worker/package-lock.json
+      - name: Install
+        run: npm ci
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Test
+        run: npm test
+
+  # ------------------------------------------------------------------ #
+  # Documentation builds strictly, so a broken link fails the build.    #
+  # ------------------------------------------------------------------ #
+  docs:
+    name: Docs
+    needs: changes
+    if: needs.changes.outputs.docs == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install MkDocs
+        run: python -m pip install mkdocs mkdocs-material
+      - name: Build
+        run: mkdocs build --strict
+
+  # ------------------------------------------------------------------ #
+  # The single required status check. Every job above must either pass  #
+  # or be skipped by its paths filter. Set this as the only required    #
+  # check in the branch protection rules for main.                      #
+  # ------------------------------------------------------------------ #
+  all-green:
+    name: all-green
+    if: always()
+    needs: [changes, catalogue, python, js, rust, worker, docs]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail if anything failed or was cancelled
+        run: |
+          results='${{ join(needs.*.result, ' ') }}'
+          echo "job results: $results"
+          for result in $results; do
+            case "$result" in
+              success|skipped) ;;
+              *) echo "a required job reported '$result'"; exit 1 ;;
+            esac
+          done
+          echo "all required jobs passed or were skipped"

@@ -1,0 +1,44 @@
+# Licence for the ngano catalogue data
+
+The ngano catalogue and the derived data files in `data/` are licensed under the
+Creative Commons Attribution 4.0 International licence (CC BY 4.0).
+
+    data/catalogue.json
+    data/countries.json
+    data/country_aliases.json
+    data/languages.json
+    data/africa.geo.json
+    data/field_map.json
+    data/schema.json
+
+Full licence text: https://creativecommons.org/licenses/by/4.0/legalcode
+Human readable summary: https://creativecommons.org/licenses/by/4.0/
+
+You are free to share and adapt this data, including commercially, provided you
+give attribution.
+
+## Required attribution
+
+Use this string, or something that carries the same information:
+
+    ngano catalogue by Isheanesu Nigel Misi, https://ngano.dev, licensed under
+    CC BY 4.0.
+
+In a paper or a citation file, prefer the citation in CITATION.cff.
+
+## What this licence does and does not cover
+
+This licence covers the catalogue: the records, the fields, the normalisation,
+the country and language indexes, and the schema. It is ngano's own work.
+
+It does **not** cover the datasets the catalogue describes. Those belong to the
+teams who collected them, and each carries its own terms. The `licence` and
+`licence_class` fields record what each publisher states, as a reading of their
+published terms and not as legal advice. Check the source licence before you
+use any dataset, especially commercially.
+
+`data/africa.geo.json` is a simplified derivative of public domain country
+outlines and is redistributed here under the same CC BY 4.0 terms as the rest of
+the catalogue.
+
+Source code in this repository is licensed separately under MIT. See LICENSE.

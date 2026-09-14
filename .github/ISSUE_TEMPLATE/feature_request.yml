@@ -1,0 +1,70 @@
+name: Feature request
+description: Suggest a capability for the packages, the API or the MCP server
+title: "[feature] "
+labels: ["enhancement", "needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Adding a dataset is not a feature request, use the dataset submission
+        template. Adding a column mapping for a Hugging Face dataset is a pull
+        request against `data/field_map.json`, see
+        [CONTRIBUTING.md](../blob/main/CONTRIBUTING.md).
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Where would this live
+      multiple: true
+      options:
+        - Python package
+        - JavaScript package
+        - Rust crate
+        - HTTP API
+        - MCP server
+        - Catalogue schema or data model
+        - Website
+        - Documentation
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: >-
+        What are you trying to do, and what stops you today. Describe the
+        situation, not the solution.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you would like
+      description: Sketch the API or the endpoint if you have one in mind.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What you have tried instead
+      description: Workarounds, other tools, why they are not enough.
+
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: Constraints this project holds to
+      description: >-
+        Tick the ones your proposal respects. If it cannot respect one, explain
+        why in the proposal above.
+      options:
+        - label: It stays consistent across all three SDKs, or it is clearly an API-only or MCP-only feature.
+          required: false
+        - label: It does not require authentication, an API key or a rate-limit token.
+          required: false
+        - label: It does not require inventing a figure the sources do not state.
+          required: false
+        - label: It does not require scraping a host that has not offered the data.
+          required: false

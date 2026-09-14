@@ -1,0 +1,259 @@
+name: Dataset submission
+description: Add a speech dataset that is missing from the ngano catalogue
+title: "[dataset] "
+labels: ["dataset", "needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for adding to the catalogue.
+
+        The bar is simple: **a primary source URL, no guessed numbers, `null`
+        over an estimate**. If the source does not state something, leave the
+        field empty or pick `Unstated`. An honest gap is more useful than a
+        plausible invention.
+
+        Field meanings are in [CONTRIBUTING.md](../blob/main/CONTRIBUTING.md).
+
+  - type: input
+    id: name
+    attributes:
+      label: Dataset name
+      description: The title exactly as the publisher writes it.
+      placeholder: Common Voice Corpus 17.0
+    validations:
+      required: true
+
+  - type: input
+    id: url
+    attributes:
+      label: Primary source URL
+      description: >-
+        The dataset's own landing page, paper, Hugging Face card or repository.
+        Not a blog post, not an aggregator listing.
+      placeholder: https://huggingface.co/datasets/owner/name
+    validations:
+      required: true
+
+  - type: input
+    id: hf_repo
+    attributes:
+      label: Hugging Face repo
+      description: "`owner/name` if it is on the Hub. Leave empty if it is not."
+      placeholder: mozilla-foundation/common_voice_17_0
+
+  - type: input
+    id: host
+    attributes:
+      label: Host
+      description: Where the data actually lives.
+      placeholder: HuggingFace, OpenSLR, SADiLaR, LDC, Zenodo, a broadcaster, a university
+    validations:
+      required: true
+
+  - type: dropdown
+    id: task
+    attributes:
+      label: Task
+      description: What the data is usable for as released.
+      options:
+        - ASR
+        - TTS
+        - ASR+TTS
+        - Raw source
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: variety
+    attributes:
+      label: Variety
+      options:
+        - Indigenous
+        - Accented foreign
+        - Creole/Pidgin
+        - Code-switch
+    validations:
+      required: true
+
+  - type: textarea
+    id: languages
+    attributes:
+      label: Languages
+      description: One per line, named exactly as the source names them.
+      placeholder: |
+        Shona
+        Ndebele
+    validations:
+      required: true
+
+  - type: textarea
+    id: iso
+    attributes:
+      label: ISO language codes
+      description: >-
+        One per line, only the codes the source itself states. Do not look codes
+        up on the language's behalf.
+      placeholder: |
+        sna
+        nde
+
+  - type: textarea
+    id: countries
+    attributes:
+      label: Countries
+      description: >-
+        One per line, using the country's common English name. Write
+        `Pan-African` for a continent-wide collection with no single country.
+      placeholder: |
+        Zimbabwe
+        Zambia
+    validations:
+      required: true
+
+  - type: input
+    id: hours
+    attributes:
+      label: Size, exactly as published
+      description: >-
+        Copy the source's wording, qualifiers included, for example
+        `65072 total (all 88 languages)`. **Leave this empty if the source states
+        no size.** Do not compute hours from file counts or durations.
+      placeholder: 1,200 hours validated
+
+  - type: input
+    id: speakers
+    attributes:
+      label: Speakers, exactly as published
+      description: Leave empty if the source states no speaker count.
+      placeholder: 3,412 unique voices
+
+  - type: input
+    id: recording_type
+    attributes:
+      label: Recording type
+      description: In the source's words.
+      placeholder: read, spontaneous, telephone, broadcast, elicited
+
+  - type: dropdown
+    id: quality
+    attributes:
+      label: Audio quality
+      description: Pick `Unstated` unless the source gives a sample rate or a recording setup.
+      options:
+        - Unstated
+        - Studio (44.1–48 kHz)
+        - Standard (16 kHz)
+        - Broadcast
+        - Crowdsourced / web
+        - Narrowband (8 kHz)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: labelled
+    attributes:
+      label: Transcripts
+      options:
+        - Transcribed
+        - Unlabelled
+        - Unstated
+    validations:
+      required: true
+
+  - type: input
+    id: domain
+    attributes:
+      label: Domain
+      placeholder: Read speech, Broadcast news, Call centre / telephony, Clinical, Religious
+    validations:
+      required: true
+
+  - type: input
+    id: licence
+    attributes:
+      label: Licence, exactly as published
+      description: Write `Unstated` if the source gives none.
+      placeholder: CC-BY-4.0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: licence_class
+    attributes:
+      label: Licence class
+      options:
+        - Unstated
+        - Public domain / CC0
+        - Permissive (MIT / Apache)
+        - Attribution (CC-BY)
+        - Attribution + ShareAlike
+        - NonCommercial
+        - NonCommercial + NoDerivatives
+        - Research only
+        - Commercial (purchase)
+        - Restricted (NOODL)
+        - Open (unspecified)
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: commercial
+    attributes:
+      label: Commercial use
+      description: According to the licence, not according to what you think is fair.
+      options:
+        - Unstated
+        - "Yes"
+        - "Yes, if purchased"
+        - "No"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: access
+    attributes:
+      label: Access
+      options:
+        - Open
+        - Request
+        - Paid
+        - Scrape required
+        - Unclear
+    validations:
+      required: true
+
+  - type: input
+    id: year
+    attributes:
+      label: Year
+      description: Four digits. Leave empty if the source states none.
+      placeholder: "2024"
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: >-
+        Caveats, what the figures mean, why a field is empty, anything a user
+        should know before downloading. This is never left blank.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: evidence
+    attributes:
+      label: Evidence bar
+      options:
+        - label: The URL above is a primary source, not a secondary mention.
+          required: true
+        - label: Every number here is stated by that source. I have not estimated, averaged or rounded anything.
+          required: true
+        - label: Fields the source is silent about are empty or `Unstated`, not guessed.
+          required: true
+        - label: If the size is self-reported at 20,000 hours or more, I have said so in the notes so it can be flagged `unverified_size`.
+          required: true
+        - label: I have searched the existing catalogue and this dataset is not already in it.
+          required: true

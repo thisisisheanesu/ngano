@@ -1,0 +1,106 @@
+site_name: ngano
+site_description: >-
+  A catalogue and a unified loader for African-language speech datasets. 612
+  datasets, 421 languages, 57 countries, with a public API, an MCP server and
+  one loader API in Python, JavaScript and Rust.
+site_url: https://ngano.dev/docs/
+site_author: Isheanesu Nigel Misi
+
+# GitHub Pages. Replace thisisisheanesu with the GitHub account, then publish with
+# `mkdocs gh-deploy`, or point Pages at the gh-pages branch.
+repo_url: https://github.com/thisisisheanesu/ngano
+repo_name: thisisisheanesu/ngano
+edit_uri: edit/main/docs/
+
+copyright: >-
+  Code MIT, catalogue CC BY 4.0, copyright 2026 Isheanesu Nigel Misi. The
+  datasets themselves belong to the teams who collected them.
+
+docs_dir: docs
+site_dir: site
+strict: true
+
+theme:
+  name: material
+  language: en
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - content.action.edit
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep orange
+      accent: amber
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep orange
+      accent: amber
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+nav:
+  - Home: index.md
+  - Loading datasets: loading.md
+  - HTTP API: api.md
+  - MCP: mcp.md
+  - Schema: schema.md
+  - Methodology: methodology.md
+  - Contributing: contributing.md
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+plugins:
+  - search
+
+extra:
+  social:
+    # Handles come from data/credits.json. Replace thisisisheanesu once the author's
+    # handles are final, in one find-and-replace across the repository.
+    - icon: fontawesome/brands/github
+      link: https://github.com/thisisisheanesu
+      name: GitHub
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/thisisisheanesu
+      name: LinkedIn
+    - icon: fontawesome/brands/x-twitter
+      link: https://x.com/thisisisheanesu
+      name: X
+  generator: false
+

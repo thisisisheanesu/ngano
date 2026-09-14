@@ -1,0 +1,42 @@
+cff-version: 1.2.0
+message: "If you use ngano, please cite it as below."
+title: "ngano: a catalogue and unified loader for African-language speech datasets"
+abstract: >-
+  ngano is an open catalogue of 612 African-language speech datasets covering
+  421 languages and 57 countries, with a public JSON API, an MCP server, and a
+  single streaming loader API implemented in Python, JavaScript and Rust. Every
+  figure is recorded as its publisher states it, self-reported sizes at or above
+  20,000 hours are flagged and excluded from totals, and unstated fields are left
+  null rather than estimated.
+type: software
+authors:
+  - family-names: Misi
+    given-names: Isheanesu Nigel
+    alias: thisisisheanesu
+version: 0.1.0
+date-released: "2026-01-01"
+license: MIT
+license-url: "https://github.com/thisisisheanesu/ngano/blob/main/LICENSE"
+repository-code: "https://github.com/thisisisheanesu/ngano"
+url: "https://ngano.dev"
+keywords:
+  - african languages
+  - speech recognition
+  - speech synthesis
+  - low-resource languages
+  - dataset catalogue
+  - asr
+  - tts
+  - open data
+references:
+  - type: data
+    title: "ngano catalogue"
+    authors:
+      - family-names: Misi
+        given-names: Isheanesu Nigel
+    license: CC-BY-4.0
+    url: "https://ngano.dev/api/v1/datasets"
+    notes: >-
+      The catalogue data is licensed CC BY 4.0 separately from the MIT-licensed
+      source code. The datasets it describes carry their own licences and are
+      not covered by either.

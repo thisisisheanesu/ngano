@@ -1,0 +1,305 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ngano.dev/schema/catalogue.schema.json",
+  "title": "ngano catalogue",
+  "description": "The ngano catalogue is a JSON array of dataset records. Each record describes one published African-language speech (or speech-adjacent) dataset as its publisher describes it. Figures are copied from the source, never estimated.",
+  "type": "array",
+  "minItems": 1,
+  "items": {
+    "$ref": "#/$defs/datasetRecord"
+  },
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https?://[^\\s]+$"
+    },
+    "isoCode": {
+      "type": "string",
+      "description": "ISO 639-1, 639-2 or 639-3 language code as published by the source.",
+      "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$"
+    },
+    "iso2": {
+      "type": "string",
+      "description": "ISO 3166-1 alpha-2 country code. Must resolve against data/countries.json.",
+      "pattern": "^[A-Z]{2}$"
+    },
+    "datasetRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "task",
+        "variety",
+        "languages",
+        "languages_clean",
+        "iso",
+        "countries",
+        "country_codes",
+        "regions",
+        "hours",
+        "hours_num",
+        "speakers",
+        "recording_type",
+        "quality",
+        "labelled",
+        "domain",
+        "licence",
+        "licence_class",
+        "commercial",
+        "access",
+        "host",
+        "url",
+        "hf_repo",
+        "year",
+        "notes",
+        "unverified_size"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Stable slug, unique across the catalogue. Lowercase alphanumerics separated by single hyphens.",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+          "minLength": 2,
+          "maxLength": 120
+        },
+        "name": {
+          "$ref": "#/$defs/nonEmptyString",
+          "description": "Dataset title as the publisher writes it."
+        },
+        "task": {
+          "description": "What the dataset is usable for as released.",
+          "enum": [
+            "ASR",
+            "TTS",
+            "ASR+TTS",
+            "Raw source",
+            "Other"
+          ]
+        },
+        "variety": {
+          "description": "The kind of speech captured.",
+          "enum": [
+            "Indigenous",
+            "Accented foreign",
+            "Creole/Pidgin",
+            "Code-switch"
+          ]
+        },
+        "languages": {
+          "type": "array",
+          "description": "Language names exactly as the source lists them. Empty only for aggregator records that name no language of their own.",
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          }
+        },
+        "languages_clean": {
+          "type": "array",
+          "description": "Language names normalised to ngano's language index. This is a filtered view: entries the index does not cover, such as generic 'Multiple' labels, are dropped rather than guessed at, so it can be shorter than 'languages' or empty.",
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          }
+        },
+        "iso": {
+          "type": "array",
+          "description": "Language codes for the languages above, where the source states them.",
+          "items": {
+            "$ref": "#/$defs/isoCode"
+          }
+        },
+        "countries": {
+          "type": "array",
+          "description": "Countries the speech comes from. Each entry must match a name in data/countries.json, or the literal 'Pan-African' for continent-wide collections.",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          }
+        },
+        "country_codes": {
+          "type": "array",
+          "description": "ISO 3166-1 alpha-2 codes for 'countries', in the same order, with 'Pan-African' omitted because it has no code.",
+          "items": {
+            "$ref": "#/$defs/iso2"
+          }
+        },
+        "regions": {
+          "type": "array",
+          "description": "Regions derived from 'countries'. Never authored by hand, and empty for records whose only country entry is 'Pan-African'.",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "North Africa",
+              "West Africa",
+              "Central Africa",
+              "East Africa",
+              "Horn of Africa",
+              "Southern Africa",
+              "Island states"
+            ]
+          }
+        },
+        "hours": {
+          "description": "Size as published, verbatim, including any qualifier the source attaches. null when the source states no size.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "hours_num": {
+          "description": "Numeric hours parsed from 'hours'. null when the source states no size. Never estimated.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "speakers": {
+          "description": "Speaker count or description as published. null when unstated.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "recording_type": {
+          "description": "How the audio was captured, in the source's words, e.g. read, spontaneous, telephone, broadcast.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "quality": {
+          "description": "Audio fidelity band.",
+          "enum": [
+            "Studio (44.1–48 kHz)",
+            "Standard (16 kHz)",
+            "Broadcast",
+            "Crowdsourced / web",
+            "Narrowband (8 kHz)",
+            "Unstated"
+          ]
+        },
+        "labelled": {
+          "description": "Whether transcripts ship with the audio.",
+          "enum": [
+            "Transcribed",
+            "Unlabelled",
+            "Unstated"
+          ]
+        },
+        "domain": {
+          "$ref": "#/$defs/nonEmptyString",
+          "description": "Subject domain, e.g. 'Read speech', 'Broadcast news', 'Call centre / telephony'."
+        },
+        "licence": {
+          "$ref": "#/$defs/nonEmptyString",
+          "description": "Licence string as published. 'Unstated' when the source gives none."
+        },
+        "licence_class": {
+          "description": "Licence bucket used for filtering.",
+          "enum": [
+            "Public domain / CC0",
+            "Permissive (MIT / Apache)",
+            "Attribution (CC-BY)",
+            "Attribution + ShareAlike",
+            "NonCommercial",
+            "NonCommercial + NoDerivatives",
+            "Research only",
+            "Commercial (purchase)",
+            "Restricted (NOODL)",
+            "Open (unspecified)",
+            "Other",
+            "Unstated"
+          ]
+        },
+        "commercial": {
+          "description": "Whether commercial use is permitted, according to the licence.",
+          "enum": [
+            "Yes",
+            "Yes, if purchased",
+            "No",
+            "Unstated"
+          ]
+        },
+        "access": {
+          "description": "How a user obtains the data.",
+          "enum": [
+            "Open",
+            "Request",
+            "Paid",
+            "Scrape required",
+            "Unclear"
+          ]
+        },
+        "host": {
+          "$ref": "#/$defs/nonEmptyString",
+          "description": "Where the data lives, e.g. HuggingFace, OpenSLR, SADiLaR, LDC."
+        },
+        "url": {
+          "description": "Primary source URL. null only where no stable public landing page exists, which the notes must then explain.",
+          "oneOf": [
+            {
+              "$ref": "#/$defs/url"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "hf_repo": {
+          "description": "Hugging Face repo id, 'owner/name'. null when the dataset is not on the Hub.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*/[A-Za-z0-9][A-Za-z0-9._-]*$"
+        },
+        "year": {
+          "description": "Publication or last-release year as a four-digit string. null when the source states none.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^(19|20)[0-9]{2}$"
+        },
+        "notes": {
+          "$ref": "#/$defs/nonEmptyString",
+          "description": "Free text: caveats, what the figures mean, why a field is null."
+        },
+        "unverified_size": {
+          "type": "boolean",
+          "description": "True when the size is self-reported at 20,000 hours or more and no independent confirmation exists. Records flagged true are excluded from every hours total."
+        },
+        "language_tags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z]{3}(-[A-Z]{2}|-[0-9]{3})?$"
+          },
+          "description": "BCP 47 tags for this record's languages, in source order. The primary subtag is always an ISO 639-3 code; a region subtag marks a country-specific variety such as eng-NG."
+        },
+        "language_codes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z]{3}$"
+          },
+          "description": "The bare ISO 639-3 codes from language_tags, deduplicated and order preserved."
+        },
+        "language_note": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Present only when the source describes its coverage in prose rather than naming individual languages, so the record carries no tags."
+        }
+      }
+    }
+  }
+}

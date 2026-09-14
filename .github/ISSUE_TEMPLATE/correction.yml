@@ -1,0 +1,99 @@
+name: Correction
+description: Fix a wrong, stale or missing field on a dataset already in the catalogue
+title: "[correction] "
+labels: ["correction", "needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Corrections are the most valuable issues in this repository. A wrong
+        licence or a stale link costs somebody a day.
+
+  - type: input
+    id: dataset_id
+    attributes:
+      label: Dataset id
+      description: >-
+        The `id` field of the record, for example `afrispeech-200`. Find it at
+        https://ngano.dev or with
+        `curl "https://ngano.dev/api/v1/datasets?q=your+search"`.
+      placeholder: afrispeech-200
+    validations:
+      required: true
+
+  - type: dropdown
+    id: field
+    attributes:
+      label: Which field is wrong
+      multiple: true
+      options:
+        - name
+        - task
+        - variety
+        - languages
+        - iso
+        - countries
+        - hours
+        - speakers
+        - recording_type
+        - quality
+        - labelled
+        - domain
+        - licence
+        - licence_class
+        - commercial
+        - access
+        - host
+        - url
+        - hf_repo
+        - year
+        - notes
+        - unverified_size
+        - the record is a duplicate
+        - the dataset no longer exists
+    validations:
+      required: true
+
+  - type: textarea
+    id: current
+    attributes:
+      label: What the catalogue says now
+      placeholder: "licence: CC-BY-NC-4.0"
+    validations:
+      required: true
+
+  - type: textarea
+    id: correct
+    attributes:
+      label: What it should say
+      description: >-
+        If the correct answer is "nothing is stated", say so. `null` and
+        `Unstated` are valid corrections and are preferred over a best guess.
+      placeholder: "licence: CC-BY-4.0, changed by the publisher in March 2025"
+    validations:
+      required: true
+
+  - type: input
+    id: evidence
+    attributes:
+      label: Primary source URL for the correction
+      description: The page that proves it. Link to the exact page, not the site root.
+      placeholder: https://huggingface.co/datasets/owner/name
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Anything else
+      description: Optional. Dates, screenshots, an email from the publisher.
+
+  - type: checkboxes
+    id: bar
+    attributes:
+      label: Evidence bar
+      options:
+        - label: The URL above is a primary source and shows the corrected value.
+          required: true
+        - label: I am not asking for an estimate to replace a `null`.
+          required: true

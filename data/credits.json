@@ -1,0 +1,58 @@
+{
+  "author": {
+    "name": "Isheanesu Nigel Misi",
+    "short_name": "Ishe Misi",
+    "tagline": "Building African language AI.",
+    "bio": "Co-founder and CTO of Vambo AI, working on speech and language models for African languages. ngano grew out of the search for training data that this catalogue documents.",
+    "email": null
+  },
+  "links": [
+    {
+      "label": "GitHub",
+      "handle": "thisisisheanesu",
+      "url": "https://github.com/thisisisheanesu",
+      "icon": "github"
+    },
+    {
+      "label": "LinkedIn",
+      "handle": "thisisisheanesu",
+      "url": "https://www.linkedin.com/in/thisisisheanesu",
+      "icon": "linkedin"
+    },
+    {
+      "label": "X",
+      "handle": "thisisisheanesu",
+      "url": "https://x.com/thisisisheanesu",
+      "icon": "x"
+    },
+    {
+      "label": "Hugging Face",
+      "handle": "thisisisheanesu",
+      "url": "https://huggingface.co/thisisisheanesu",
+      "icon": "huggingface"
+    },
+    {
+      "label": "Website",
+      "handle": "thisisisheanesu.com",
+      "url": "https://thisisisheanesu.com",
+      "icon": "globe"
+    }
+  ],
+  "project": {
+    "name": "ngano",
+    "meaning": "Shona for folk stories, the oral tradition told aloud and later written down.",
+    "domain": "https://ngano.dev",
+    "repo": "https://github.com/thisisisheanesu/ngano",
+    "code_licence": "MIT",
+    "data_licence": "CC-BY-4.0",
+    "citation": {
+      "type": "software",
+      "title": "ngano: a catalogue and unified loader for African-language speech datasets",
+      "year": 2026
+    }
+  },
+  "acknowledgements": [
+    "Every dataset in this catalogue belongs to the teams who collected it. ngano only points at their work and records what they published about it.",
+    "Digital Umuganda, Masakhane, Lacuna Fund, Mozilla Common Voice, SADiLaR, Makerere AI Lab, Sunbird AI, Intron Health, RobotsMali, Ghana NLP and the University of Zambia carry a disproportionate share of what exists."
+  ]
+}

@@ -1,0 +1,20 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Browse the catalogue
+    url: https://ngano.dev
+    about: Search 612 datasets before filing, the answer may already be there.
+  - name: Documentation
+    url: https://ngano.dev/docs
+    about: API reference, MCP tools, the row schema and the loading guide.
+  - name: Question or idea
+    url: https://github.com/thisisisheanesu/ngano/discussions
+    about: For anything that is not a bug, a feature request or a catalogue change.
+  - name: Report a security vulnerability
+    url: https://github.com/thisisisheanesu/ngano/security/advisories/new
+    about: Private disclosure. Please do not open a public issue for a security problem.
+  - name: A problem with a dataset itself
+    url: https://ngano.dev
+    about: >-
+      ngano catalogues other people's datasets. Report a problem with the data
+      to its publisher, and open a correction here if the catalogue entry is
+      also wrong.

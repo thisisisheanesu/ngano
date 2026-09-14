@@ -1,0 +1,57 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.env
+.tox/
+.nox/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.npm/
+packages/js/dist/
+worker/dist/
+*.tsbuildinfo
+.vitest/
+
+# Rust
+target/
+**/*.rs.bk
+Cargo.lock.orig
+
+# Cloudflare Worker
+.wrangler/
+worker/.dev.vars
+.dev.vars
+
+# Docs
+site/
+.cache/
+
+# Editors and OS
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Local scratch
+scratch/
+tmp/
+*.local.json

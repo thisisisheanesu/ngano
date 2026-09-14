@@ -1,0 +1,29 @@
+{
+  "language": "javascript",
+  "install": "npm install ngano",
+  "package": "ngano",
+  "runtimes": [
+    "node>=18",
+    "deno",
+    "bun",
+    "browser"
+  ],
+  "placeholders": [
+    "{{LANGUAGE}}",
+    "{{COUNTRY_ISO2}}",
+    "{{COUNTRY_NAME}}",
+    "{{DATASET_ID}}",
+    "{{HF_REPO}}",
+    "{{CONFIG}}",
+    "{{TASK}}"
+  ],
+  "snippets": {
+    "catalogue_filter": "import { Catalogue } from \"ngano\";\n\n// The catalogue ships inside the package, so this needs no network.\nconst cat = new Catalogue();\n\n// Languages are BCP 47 tags: sna is Shona, eng-NG is Nigerian English. A bare\n// ISO 639-3 code, or any catalogue spelling of the name, resolves to one too.\nconst datasets = cat.datasets({\n  language: \"{{LANGUAGE}}\",\n  country: \"{{COUNTRY_ISO2}}\",\n  task: \"{{TASK}}\",\n  commercial: true,\n  hfOnly: true,\n});\n\nfor (const dataset of datasets) {\n  console.log(dataset.id, dataset.languageTags, dataset.hoursNum, dataset.licence);\n}\n",
+    "stream_filter": "import { load } from \"ngano\";\n\nconst stream = load({\n  language: \"{{LANGUAGE}}\",\n  country: \"{{COUNTRY_ISO2}}\",\n  commercial: true,\n  split: \"train\",\n  interleave: \"round_robin\",\n  limit: 1000,\n  hfToken: process.env.HF_TOKEN,\n});\n\n// Counts are known before the first request is made.\nconsole.log(stream.matched + \" datasets matched, \" + stream.loadable + \" can be streamed\");\n\nfor await (const row of stream) {\n  console.log(row.transcript, row.languageTag, row.durationS);\n  // Audio stays lazy until you ask for the bytes.\n  // const bytes = await row.audio?.read();\n}\n\nfor (const failure of stream.errors) {\n  console.warn(\"skipped \" + failure.source.hfRepo);\n}\n",
+    "single_dataset": "import { loadDataset } from \"ngano\";\n\nlet count = 0;\n\nfor await (const row of loadDataset(\"{{HF_REPO}}\", {\n  config: \"{{CONFIG}}\",\n  split: \"train\",\n  hfToken: process.env.HF_TOKEN,\n})) {\n  console.log(row.transcript, row.audio?.url);\n  count += 1;\n  if (count >= 100) break; // breaking stops every request in flight\n}\n",
+    "language_page": "import { Catalogue, load } from \"ngano\";\n\nconst cat = new Catalogue();\n\n// Languages are keyed on BCP 47 tags: sna is Shona, eng-NG is Nigerian English.\n// Hours exclude self-reported figures the catalogue flags as unverified.\nconst summary = cat.languages().find((entry) => entry.tag === \"{{LANGUAGE}}\");\nconsole.log(summary?.name, summary?.datasets, summary?.hours, summary?.countries);\n\n// Anything a caller might type resolves to the same tag, or to nothing at all.\nconsole.log(cat.resolveLanguage(\"{{LANGUAGE}}\"));\n\nconst stream = load({ language: \"{{LANGUAGE}}\", split: \"train\", limit: 200 });\nfor await (const row of stream) {\n  console.log(row.transcript, row.languageTag);\n}\n",
+    "country_page": "import { Catalogue } from \"ngano\";\n\nconst cat = new Catalogue();\n\nconst country = cat.countries().find((entry) => entry.iso2 === \"{{COUNTRY_ISO2}}\");\nconsole.log(\"{{COUNTRY_NAME}}\", country?.datasets, country?.hours, country?.languages);\n\nfor (const dataset of cat.datasets({ country: \"{{COUNTRY_ISO2}}\", hfOnly: true })) {\n  console.log(dataset.id, dataset.task, dataset.hfRepo);\n}\n",
+    "dataset_page": "import { Catalogue, loadDataset } from \"ngano\";\n\nconst cat = new Catalogue();\nconst dataset = cat.get(\"{{DATASET_ID}}\");\n\nconsole.log(dataset?.name, dataset?.licence, dataset?.access, dataset?.hfRepo);\nif (dataset?.unverifiedSize) {\n  console.log(\"Size is self-reported and excluded from hours totals.\");\n}\n\nif (dataset?.hfRepo) {\n  for await (const row of loadDataset(dataset.hfRepo, { split: \"train\", limit: 10 })) {\n    console.log(row.transcript, row.languageTag, row.durationS);\n  }\n}\n",
+    "cli": "npm install -g ngano\n\n# Languages are BCP 47 tags: sna, eng-NG, por-MZ. Names resolve to them too.\nngano search --language {{LANGUAGE}} --task {{TASK}} --commercial --limit 10\nngano show {{DATASET_ID}}\nngano countries --language {{LANGUAGE}}\nngano languages --limit 20\nngano languages --language {{LANGUAGE}} --include-varieties\nngano stats --json\nngano load --language {{LANGUAGE}} --country {{COUNTRY_ISO2}} --commercial \\\n  --split train --limit 500 --out rows.jsonl\n"
+  }
+}

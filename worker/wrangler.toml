@@ -1,0 +1,25 @@
+name = "ngano"
+main = "src/index.ts"
+account_id = "67cb2eb6080019612e374af596f7197c"
+compatibility_date = "2025-09-01"
+workers_dev = true
+
+# ngano.dev is served entirely from generated responses: the site HTML, the JSON API,
+# the MCP endpoint and the raw data downloads are all built from data/*.json at module
+# scope, so there is no [assets] binding and no static upload step.
+
+# TEMPORARY: re-enable once the ngano.dev zone is active in Cloudflare.
+# [[routes]]
+# pattern = "ngano.dev"
+# custom_domain = true
+#
+# [[routes]]
+# pattern = "www.ngano.dev"
+# custom_domain = true
+
+[vars]
+VERSION = "0.1.0"
+BASE_URL = "https://ngano.dev"
+
+[observability]
+enabled = true

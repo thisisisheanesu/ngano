@@ -1,0 +1,105 @@
+name: Release Python
+
+# Triggered by a tag of the form py-v0.1.0.
+#
+#   git tag py-v0.1.0 && git push origin py-v0.1.0
+#
+# ---------------------------------------------------------------------------
+# One-time repository settings the author must configure
+# ---------------------------------------------------------------------------
+# This workflow publishes with PyPI Trusted Publishing (OIDC). There is no API
+# token anywhere, so nothing can leak from this repository.
+#
+# 1. PyPI: log in, go to Your projects -> ngano -> Publishing, or for a project
+#    that does not exist yet go to Account settings -> Publishing -> Add a new
+#    pending publisher. Fill in:
+#        PyPI project name : ngano
+#        Owner             : thisisisheanesu
+#        Repository name   : ngano
+#        Workflow name     : release-python.yml
+#        Environment name  : pypi
+# 2. GitHub: Settings -> Environments -> New environment, named exactly `pypi`.
+#    Add yourself as a required reviewer so a release needs one click to go out,
+#    and restrict the environment to tags matching py-v*.
+# 3. Optional but recommended: repeat steps 1 and 2 on test.pypi.org with the
+#    environment name `testpypi` if you want a dry run target.
+# 4. No secret is needed. Do not add PYPI_API_TOKEN. The `id-token: write`
+#    permission below is what authenticates the upload.
+# ---------------------------------------------------------------------------
+
+on:
+  push:
+    tags: ['py-v*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build distributions
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/python
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate the catalogue before shipping it
+        working-directory: .
+        run: |
+          python -m pip install --upgrade jsonschema
+          python scripts/validate_catalogue.py
+
+      - name: Install build tooling
+        run: python -m pip install --upgrade build twine
+
+      - name: Confirm the tag matches the package version
+        run: |
+          tag="${GITHUB_REF_NAME#py-v}"
+          version=$(python -c "import tomllib,pathlib; print(tomllib.loads(pathlib.Path('pyproject.toml').read_text())['project']['version'])")
+          echo "tag=$tag package=$version"
+          if [ "$tag" != "$version" ]; then
+            echo "tag $GITHUB_REF_NAME does not match pyproject.toml version $version"
+            exit 1
+          fi
+        if: startsWith(github.ref, 'refs/tags/')
+
+      - name: Build sdist and wheel
+        run: python -m build
+
+      - name: Check metadata
+        run: python -m twine check dist/*
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: python-dist
+          path: packages/python/dist/
+          if-no-files-found: error
+
+  publish:
+    name: Publish to PyPI
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/project/ngano/
+    permissions:
+      # Trusted publishing. This is the credential, there is no token.
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: python-dist
+          path: dist/
+
+      - name: Publish
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          # No `password:` on purpose. Omitting it selects OIDC.
+          print-hash: true
+          attestations: true

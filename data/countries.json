@@ -1,0 +1,582 @@
+[
+ {
+  "name": "Algeria",
+  "iso2": "DZ",
+  "iso3": "DZA",
+  "map_name": "Algeria",
+  "lat": 28.0,
+  "lon": 3.0,
+  "region": "North Africa",
+  "slug": "dz"
+ },
+ {
+  "name": "Angola",
+  "iso2": "AO",
+  "iso3": "AGO",
+  "map_name": "Angola",
+  "lat": -12.3,
+  "lon": 17.9,
+  "region": "Southern Africa",
+  "slug": "ao"
+ },
+ {
+  "name": "Benin",
+  "iso2": "BJ",
+  "iso3": "BEN",
+  "map_name": "Benin",
+  "lat": 9.6,
+  "lon": 2.3,
+  "region": "West Africa",
+  "slug": "bj"
+ },
+ {
+  "name": "Botswana",
+  "iso2": "BW",
+  "iso3": "BWA",
+  "map_name": "Botswana",
+  "lat": -22.2,
+  "lon": 23.8,
+  "region": "Southern Africa",
+  "slug": "bw"
+ },
+ {
+  "name": "Burkina Faso",
+  "iso2": "BF",
+  "iso3": "BFA",
+  "map_name": "Burkina Faso",
+  "lat": 12.3,
+  "lon": -1.6,
+  "region": "West Africa",
+  "slug": "bf"
+ },
+ {
+  "name": "Burundi",
+  "iso2": "BI",
+  "iso3": "BDI",
+  "map_name": "Burundi",
+  "lat": -3.4,
+  "lon": 29.9,
+  "region": "East Africa",
+  "slug": "bi"
+ },
+ {
+  "name": "Cabo Verde",
+  "iso2": "CV",
+  "iso3": "CPV",
+  "map_name": null,
+  "lat": 16.0,
+  "lon": -24.0,
+  "region": "West Africa",
+  "slug": "cv"
+ },
+ {
+  "name": "Cameroon",
+  "iso2": "CM",
+  "iso3": "CMR",
+  "map_name": "Cameroon",
+  "lat": 5.7,
+  "lon": 12.7,
+  "region": "Central Africa",
+  "slug": "cm"
+ },
+ {
+  "name": "Central African Republic",
+  "iso2": "CF",
+  "iso3": "CAF",
+  "map_name": "Central African Rep.",
+  "lat": 6.6,
+  "lon": 20.9,
+  "region": "Central Africa",
+  "slug": "cf"
+ },
+ {
+  "name": "Chad",
+  "iso2": "TD",
+  "iso3": "TCD",
+  "map_name": "Chad",
+  "lat": 15.4,
+  "lon": 18.7,
+  "region": "Central Africa",
+  "slug": "td"
+ },
+ {
+  "name": "Comoros",
+  "iso2": "KM",
+  "iso3": "COM",
+  "map_name": null,
+  "lat": -11.87,
+  "lon": 43.35,
+  "region": "Island states",
+  "slug": "km"
+ },
+ {
+  "name": "Democratic Republic of the Congo",
+  "iso2": "CD",
+  "iso3": "COD",
+  "map_name": "Dem. Rep. Congo",
+  "lat": -2.9,
+  "lon": 23.6,
+  "region": "Central Africa",
+  "slug": "cd"
+ },
+ {
+  "name": "Republic of the Congo",
+  "iso2": "CG",
+  "iso3": "COG",
+  "map_name": "Congo",
+  "lat": -0.8,
+  "lon": 15.2,
+  "region": "Central Africa",
+  "slug": "cg"
+ },
+ {
+  "name": "Côte d'Ivoire",
+  "iso2": "CI",
+  "iso3": "CIV",
+  "map_name": "Côte d'Ivoire",
+  "lat": 7.5,
+  "lon": -5.5,
+  "region": "West Africa",
+  "slug": "ci"
+ },
+ {
+  "name": "Djibouti",
+  "iso2": "DJ",
+  "iso3": "DJI",
+  "map_name": "Djibouti",
+  "lat": 11.8,
+  "lon": 42.6,
+  "region": "Horn of Africa",
+  "slug": "dj"
+ },
+ {
+  "name": "Egypt",
+  "iso2": "EG",
+  "iso3": "EGY",
+  "map_name": "Egypt",
+  "lat": 26.8,
+  "lon": 30.8,
+  "region": "North Africa",
+  "slug": "eg"
+ },
+ {
+  "name": "Equatorial Guinea",
+  "iso2": "GQ",
+  "iso3": "GNQ",
+  "map_name": "Eq. Guinea",
+  "lat": 1.6,
+  "lon": 10.3,
+  "region": "Central Africa",
+  "slug": "gq"
+ },
+ {
+  "name": "Eritrea",
+  "iso2": "ER",
+  "iso3": "ERI",
+  "map_name": "Eritrea",
+  "lat": 15.2,
+  "lon": 39.8,
+  "region": "Horn of Africa",
+  "slug": "er"
+ },
+ {
+  "name": "Eswatini",
+  "iso2": "SZ",
+  "iso3": "SWZ",
+  "map_name": "eSwatini",
+  "lat": -26.5,
+  "lon": 31.5,
+  "region": "Southern Africa",
+  "slug": "sz"
+ },
+ {
+  "name": "Ethiopia",
+  "iso2": "ET",
+  "iso3": "ETH",
+  "map_name": "Ethiopia",
+  "lat": 9.1,
+  "lon": 40.5,
+  "region": "Horn of Africa",
+  "slug": "et"
+ },
+ {
+  "name": "Gabon",
+  "iso2": "GA",
+  "iso3": "GAB",
+  "map_name": "Gabon",
+  "lat": -0.8,
+  "lon": 11.6,
+  "region": "Central Africa",
+  "slug": "ga"
+ },
+ {
+  "name": "Gambia",
+  "iso2": "GM",
+  "iso3": "GMB",
+  "map_name": "Gambia",
+  "lat": 13.4,
+  "lon": -15.3,
+  "region": "West Africa",
+  "slug": "gm"
+ },
+ {
+  "name": "Ghana",
+  "iso2": "GH",
+  "iso3": "GHA",
+  "map_name": "Ghana",
+  "lat": 7.9,
+  "lon": -1.0,
+  "region": "West Africa",
+  "slug": "gh"
+ },
+ {
+  "name": "Guinea",
+  "iso2": "GN",
+  "iso3": "GIN",
+  "map_name": "Guinea",
+  "lat": 9.9,
+  "lon": -9.7,
+  "region": "West Africa",
+  "slug": "gn"
+ },
+ {
+  "name": "Guinea-Bissau",
+  "iso2": "GW",
+  "iso3": "GNB",
+  "map_name": "Guinea-Bissau",
+  "lat": 11.8,
+  "lon": -15.2,
+  "region": "West Africa",
+  "slug": "gw"
+ },
+ {
+  "name": "Kenya",
+  "iso2": "KE",
+  "iso3": "KEN",
+  "map_name": "Kenya",
+  "lat": 0.2,
+  "lon": 37.9,
+  "region": "East Africa",
+  "slug": "ke"
+ },
+ {
+  "name": "Lesotho",
+  "iso2": "LS",
+  "iso3": "LSO",
+  "map_name": "Lesotho",
+  "lat": -29.6,
+  "lon": 28.2,
+  "region": "Southern Africa",
+  "slug": "ls"
+ },
+ {
+  "name": "Liberia",
+  "iso2": "LR",
+  "iso3": "LBR",
+  "map_name": "Liberia",
+  "lat": 6.4,
+  "lon": -9.4,
+  "region": "West Africa",
+  "slug": "lr"
+ },
+ {
+  "name": "Libya",
+  "iso2": "LY",
+  "iso3": "LBY",
+  "map_name": "Libya",
+  "lat": 26.3,
+  "lon": 17.2,
+  "region": "North Africa",
+  "slug": "ly"
+ },
+ {
+  "name": "Madagascar",
+  "iso2": "MG",
+  "iso3": "MDG",
+  "map_name": "Madagascar",
+  "lat": -18.8,
+  "lon": 46.9,
+  "region": "Island states",
+  "slug": "mg"
+ },
+ {
+  "name": "Malawi",
+  "iso2": "MW",
+  "iso3": "MWI",
+  "map_name": "Malawi",
+  "lat": -13.3,
+  "lon": 34.3,
+  "region": "Southern Africa",
+  "slug": "mw"
+ },
+ {
+  "name": "Mali",
+  "iso2": "ML",
+  "iso3": "MLI",
+  "map_name": "Mali",
+  "lat": 17.6,
+  "lon": -4.0,
+  "region": "West Africa",
+  "slug": "ml"
+ },
+ {
+  "name": "Mauritania",
+  "iso2": "MR",
+  "iso3": "MRT",
+  "map_name": "Mauritania",
+  "lat": 21.0,
+  "lon": -10.9,
+  "region": "West Africa",
+  "slug": "mr"
+ },
+ {
+  "name": "Mauritius",
+  "iso2": "MU",
+  "iso3": "MUS",
+  "map_name": null,
+  "lat": -20.2,
+  "lon": 57.5,
+  "region": "Island states",
+  "slug": "mu"
+ },
+ {
+  "name": "Mayotte",
+  "iso2": "YT",
+  "iso3": "MYT",
+  "map_name": null,
+  "lat": -12.83,
+  "lon": 45.17,
+  "region": "Island states",
+  "slug": "yt"
+ },
+ {
+  "name": "Morocco",
+  "iso2": "MA",
+  "iso3": "MAR",
+  "map_name": "Morocco",
+  "lat": 31.8,
+  "lon": -7.1,
+  "region": "North Africa",
+  "slug": "ma"
+ },
+ {
+  "name": "Mozambique",
+  "iso2": "MZ",
+  "iso3": "MOZ",
+  "map_name": "Mozambique",
+  "lat": -18.7,
+  "lon": 35.5,
+  "region": "Southern Africa",
+  "slug": "mz"
+ },
+ {
+  "name": "Namibia",
+  "iso2": "NA",
+  "iso3": "NAM",
+  "map_name": "Namibia",
+  "lat": -22.6,
+  "lon": 18.5,
+  "region": "Southern Africa",
+  "slug": "na"
+ },
+ {
+  "name": "Niger",
+  "iso2": "NE",
+  "iso3": "NER",
+  "map_name": "Niger",
+  "lat": 17.6,
+  "lon": 8.1,
+  "region": "West Africa",
+  "slug": "ne"
+ },
+ {
+  "name": "Nigeria",
+  "iso2": "NG",
+  "iso3": "NGA",
+  "map_name": "Nigeria",
+  "lat": 9.1,
+  "lon": 8.7,
+  "region": "West Africa",
+  "slug": "ng"
+ },
+ {
+  "name": "Réunion",
+  "iso2": "RE",
+  "iso3": "REU",
+  "map_name": null,
+  "lat": -21.11,
+  "lon": 55.54,
+  "region": "Island states",
+  "slug": "re"
+ },
+ {
+  "name": "Rwanda",
+  "iso2": "RW",
+  "iso3": "RWA",
+  "map_name": "Rwanda",
+  "lat": -1.9,
+  "lon": 29.9,
+  "region": "East Africa",
+  "slug": "rw"
+ },
+ {
+  "name": "São Tomé and Príncipe",
+  "iso2": "ST",
+  "iso3": "STP",
+  "map_name": null,
+  "lat": 0.33,
+  "lon": 6.73,
+  "region": "Central Africa",
+  "slug": "st"
+ },
+ {
+  "name": "Senegal",
+  "iso2": "SN",
+  "iso3": "SEN",
+  "map_name": "Senegal",
+  "lat": 14.5,
+  "lon": -14.5,
+  "region": "West Africa",
+  "slug": "sn"
+ },
+ {
+  "name": "Seychelles",
+  "iso2": "SC",
+  "iso3": "SYC",
+  "map_name": null,
+  "lat": -4.6,
+  "lon": 55.5,
+  "region": "Island states",
+  "slug": "sc"
+ },
+ {
+  "name": "Sierra Leone",
+  "iso2": "SL",
+  "iso3": "SLE",
+  "map_name": "Sierra Leone",
+  "lat": 8.5,
+  "lon": -11.8,
+  "region": "West Africa",
+  "slug": "sl"
+ },
+ {
+  "name": "Somalia",
+  "iso2": "SO",
+  "iso3": "SOM",
+  "map_name": "Somalia",
+  "lat": 5.2,
+  "lon": 46.2,
+  "region": "Horn of Africa",
+  "slug": "so"
+ },
+ {
+  "name": "Somaliland",
+  "iso2": "XS",
+  "iso3": "XSL",
+  "map_name": "Somaliland",
+  "lat": 9.6,
+  "lon": 46.0,
+  "region": "Horn of Africa",
+  "slug": "xs"
+ },
+ {
+  "name": "South Africa",
+  "iso2": "ZA",
+  "iso3": "ZAF",
+  "map_name": "South Africa",
+  "lat": -30.6,
+  "lon": 22.9,
+  "region": "Southern Africa",
+  "slug": "za"
+ },
+ {
+  "name": "South Sudan",
+  "iso2": "SS",
+  "iso3": "SSD",
+  "map_name": "S. Sudan",
+  "lat": 7.9,
+  "lon": 30.2,
+  "region": "East Africa",
+  "slug": "ss"
+ },
+ {
+  "name": "Sudan",
+  "iso2": "SD",
+  "iso3": "SDN",
+  "map_name": "Sudan",
+  "lat": 15.6,
+  "lon": 30.2,
+  "region": "North Africa",
+  "slug": "sd"
+ },
+ {
+  "name": "Tanzania",
+  "iso2": "TZ",
+  "iso3": "TZA",
+  "map_name": "Tanzania",
+  "lat": -6.4,
+  "lon": 34.9,
+  "region": "East Africa",
+  "slug": "tz"
+ },
+ {
+  "name": "Togo",
+  "iso2": "TG",
+  "iso3": "TGO",
+  "map_name": "Togo",
+  "lat": 8.6,
+  "lon": 0.8,
+  "region": "West Africa",
+  "slug": "tg"
+ },
+ {
+  "name": "Tunisia",
+  "iso2": "TN",
+  "iso3": "TUN",
+  "map_name": "Tunisia",
+  "lat": 33.9,
+  "lon": 9.5,
+  "region": "North Africa",
+  "slug": "tn"
+ },
+ {
+  "name": "Uganda",
+  "iso2": "UG",
+  "iso3": "UGA",
+  "map_name": "Uganda",
+  "lat": 1.4,
+  "lon": 32.3,
+  "region": "East Africa",
+  "slug": "ug"
+ },
+ {
+  "name": "Western Sahara",
+  "iso2": "EH",
+  "iso3": "ESH",
+  "map_name": "W. Sahara",
+  "lat": 24.2,
+  "lon": -12.9,
+  "region": "North Africa",
+  "slug": "eh"
+ },
+ {
+  "name": "Zambia",
+  "iso2": "ZM",
+  "iso3": "ZMB",
+  "map_name": "Zambia",
+  "lat": -13.1,
+  "lon": 27.8,
+  "region": "Southern Africa",
+  "slug": "zm"
+ },
+ {
+  "name": "Zimbabwe",
+  "iso2": "ZW",
+  "iso3": "ZWE",
+  "map_name": "Zimbabwe",
+  "lat": -19.0,
+  "lon": 29.2,
+  "region": "Southern Africa",
+  "slug": "zw"
+ }
+]

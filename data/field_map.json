@@ -1,0 +1,275 @@
+{
+  "$comment": "Maps heterogeneous Hugging Face audio-dataset columns onto ngano's canonical schema. Heuristic aliases are applied to every dataset; repo overrides win where present. Runtime feature inspection always takes precedence over guesswork, so an unknown dataset still loads. Language identity is carried by three canonical fields: `language` keeps the source's own wording, `language_iso` the bare ISO 639-3 code, and `language_tag` the full BCP 47 tag. Column claiming is table-driven: an SDK must not add its own heuristics beyond this file, so that Python, JavaScript and Rust produce byte-identical mappings. Datasets-server or datasets feature types MAY be consulted only to confirm that a column already claimed as audio really is audio, never to claim a new one.",
+  "version": 1,
+  "canonical": {
+    "audio": "Audio handle. Lazy by default: {url, path, bytes, sampling_rate}. Never decoded unless the caller asks.",
+    "transcript": "Reference text for the utterance.",
+    "language": "Language name as the source labels it.",
+    "language_iso": "ISO 639-1/3 code where the source provides one.",
+    "country": "ISO 3166-1 alpha-2, from the source row or the catalogue entry.",
+    "speaker_id": "Stable speaker identifier within the dataset.",
+    "gender": "Speaker gender as stated by the source. Never inferred.",
+    "age": "Speaker age or age band as stated by the source.",
+    "duration_s": "Utterance duration in seconds.",
+    "sampling_rate": "Sample rate in Hz.",
+    "domain": "Recording domain, e.g. read, broadcast, clinical.",
+    "split": "Source split name.",
+    "dataset_id": "ngano catalogue id.",
+    "hf_repo": "Hugging Face repo id.",
+    "licence": "Licence string from the catalogue.",
+    "source_url": "Canonical URL for the dataset.",
+    "language_tag": "BCP 47 tag for this row's language; the primary subtag is always an ISO 639-3 code and an optional region subtag marks a country-specific variety, for example eng-NG. Resolved from the row's own language value where it states one, otherwise from the catalogue record when that record names exactly one language."
+  },
+  "aliases": {
+    "transcript": [
+      "sentence",
+      "text",
+      "transcription",
+      "transcript",
+      "normalized_text",
+      "normalised_text",
+      "sentence_norm",
+      "raw_transcription",
+      "utterance",
+      "utt",
+      "transcript_text",
+      "orthographic",
+      "orthographic_transcription",
+      "target_text",
+      "target",
+      "label_text",
+      "ref",
+      "reference",
+      "content",
+      "phrase",
+      "words",
+      "sentence_text",
+      "clean_text",
+      "corrected_text",
+      "gold_transcript",
+      "transcript_clean",
+      "text_clean",
+      "sentence_clean",
+      "annotation",
+      "caption",
+      "script",
+      "prompt",
+      "source_text"
+    ],
+    "audio": [
+      "audio",
+      "speech",
+      "wav",
+      "path",
+      "file",
+      "audio_filepath",
+      "audio_path",
+      "file_name",
+      "filename",
+      "filepath",
+      "audio_file",
+      "waveform",
+      "input_values",
+      "wav_path",
+      "wavpath",
+      "audio_url",
+      "audiourl",
+      "audio_file_path",
+      "sound",
+      "sound_path",
+      "recording",
+      "recording_path",
+      "clip",
+      "clip_path",
+      "mp3",
+      "flac",
+      "ogg",
+      "opus",
+      "audio_bytes",
+      "raw_audio",
+      "signal",
+      "utterance_audio",
+      "voice",
+      "media",
+      "media_url"
+    ],
+    "language": [
+      "language",
+      "locale",
+      "lang",
+      "language_name",
+      "lang_id",
+      "locale_id",
+      "language_code",
+      "lang_code",
+      "langid",
+      "iso_language"
+    ],
+    "language_iso": [
+      "language_iso",
+      "iso_639_3",
+      "iso639_3",
+      "iso_code",
+      "lang_iso"
+    ],
+    "speaker_id": [
+      "client_id",
+      "speaker_id",
+      "speaker",
+      "spk_id",
+      "speakerid",
+      "spkid",
+      "user_id",
+      "voice_id",
+      "narrator",
+      "speaker_name"
+    ],
+    "gender": [
+      "gender",
+      "sex",
+      "speaker_gender",
+      "speaker_sex",
+      "voice_gender"
+    ],
+    "age": [
+      "age",
+      "age_group",
+      "speaker_age",
+      "age_band"
+    ],
+    "duration_s": [
+      "duration",
+      "duration_s",
+      "duration_sec",
+      "duration_seconds",
+      "length",
+      "audio_duration",
+      "dur",
+      "seconds"
+    ],
+    "duration_ms": [
+      "duration_ms",
+      "duration_millis",
+      "length_ms"
+    ],
+    "sampling_rate": [
+      "sampling_rate",
+      "sample_rate",
+      "sr",
+      "samplerate",
+      "frequency"
+    ],
+    "country": [
+      "country",
+      "accent_country",
+      "nationality",
+      "country_code",
+      "region_country",
+      "country_iso",
+      "iso_country",
+      "accent",
+      "origin_country"
+    ],
+    "domain": [
+      "domain",
+      "topic",
+      "category",
+      "genre",
+      "style",
+      "subject"
+    ],
+    "split": [
+      "split",
+      "subset",
+      "partition"
+    ],
+    "language_tag": [
+      "language_tag",
+      "lang_tag",
+      "bcp47",
+      "bcp_47",
+      "bcp47_tag",
+      "locale_tag",
+      "language_bcp47",
+      "ietf_tag",
+      "langtag"
+    ]
+  },
+  "drop": [
+    "up_votes",
+    "down_votes",
+    "variant",
+    "segment",
+    "__index_level_0__",
+    "audio_id",
+    "id",
+    "idx",
+    "index",
+    "path_orig",
+    "is_gold_transcript",
+    "num_samples"
+  ],
+  "unit_hints": {
+    "duration_ms": {
+      "canonical": "duration_s",
+      "multiply": 0.001
+    },
+    "duration_frames_16k": {
+      "canonical": "duration_s",
+      "multiply": 6.25e-05
+    }
+  },
+  "overrides": {
+    "mozilla-foundation/common_voice_17_0": {
+      "transcript": "sentence",
+      "speaker_id": "client_id",
+      "language": "locale",
+      "audio": "audio",
+      "verified": true
+    },
+    "mozilla-foundation/common_voice_16_1": {
+      "transcript": "sentence",
+      "speaker_id": "client_id",
+      "language": "locale",
+      "audio": "audio",
+      "verified": true
+    },
+    "mozilla-foundation/common_voice_13_0": {
+      "transcript": "sentence",
+      "speaker_id": "client_id",
+      "language": "locale",
+      "audio": "audio",
+      "verified": true
+    },
+    "mozilla-foundation/common_voice_11_0": {
+      "transcript": "sentence",
+      "speaker_id": "client_id",
+      "language": "locale",
+      "audio": "audio",
+      "verified": true
+    },
+    "google/fleurs": {
+      "transcript": "transcription",
+      "language": "language",
+      "language_iso": "lang_id",
+      "audio": "audio",
+      "gender": "gender",
+      "verified": true
+    },
+    "google/xtreme_s": {
+      "transcript": "transcription",
+      "language": "lang_id",
+      "audio": "audio",
+      "verified": true
+    },
+    "intronhealth/afrispeech-200": {
+      "transcript": "transcript",
+      "speaker_id": "speaker_id",
+      "audio": "audio",
+      "age": "age_group",
+      "gender": "gender",
+      "domain": "domain",
+      "verified": true
+    }
+  }
+}

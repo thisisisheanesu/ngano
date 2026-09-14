@@ -1,0 +1,89 @@
+[build-system]
+requires = ["hatchling>=1.21"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ngano"
+version = "0.1.0"
+description = "Open catalogue and streaming loader for African-language speech datasets"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "Isheanesu Nigel Misi" }]
+keywords = [
+  "africa",
+  "african languages",
+  "speech",
+  "asr",
+  "tts",
+  "datasets",
+  "corpus",
+  "huggingface",
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Topic :: Multimedia :: Sound/Audio :: Speech",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Typing :: Typed",
+]
+dependencies = [
+  "datasets>=2.14",
+  "requests>=2.28",
+]
+
+[project.optional-dependencies]
+audio = ["soundfile>=0.12", "numpy>=1.21"]
+all = ["soundfile>=0.12", "numpy>=1.21"]
+dev = ["pytest>=7.4", "mypy>=1.8", "types-requests>=2.28"]
+
+[project.urls]
+Homepage = "https://ngano.dev"
+Documentation = "https://ngano.dev/docs"
+API = "https://ngano.dev/api/v1"
+Source = "https://github.com/ishemisi/ngano"
+
+[project.scripts]
+ngano = "ngano.cli:main"
+
+[tool.hatch.build.hooks.custom]
+path = "hatch_build.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ngano"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "src/ngano",
+  "tests",
+  "README.md",
+  "CHANGELOG.md",
+  "snippets.json",
+  "sync_data.py",
+  "hatch_build.py",
+  "pyproject.toml",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "tests"]
+addopts = "-q"
+
+[tool.mypy]
+strict = true
+files = ["src/ngano"]
+warn_unused_ignores = false
+
+[[tool.mypy.overrides]]
+module = ["datasets", "datasets.*", "soundfile", "numpy", "numpy.*"]
+ignore_missing_imports = true

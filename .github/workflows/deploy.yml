@@ -1,0 +1,96 @@
+name: Deploy Worker
+
+# Deploys the ngano Worker to Cloudflare on every push to main that touches the
+# Worker or the data it serves.
+#
+# ---------------------------------------------------------------------------
+# One-time repository settings the author must configure
+# ---------------------------------------------------------------------------
+# 1. Cloudflare: My Profile -> API Tokens -> Create Token -> Edit Cloudflare
+#    Workers template. Scope it to the ngano.dev zone and the account that owns
+#    it. Permissions needed: Account -> Workers Scripts -> Edit, Account ->
+#    Workers KV Storage -> Edit if the Worker uses KV, Zone -> Workers Routes ->
+#    Edit for the custom domain.
+# 2. GitHub: Settings -> Secrets and variables -> Actions -> New repository
+#    secret:
+#        CLOUDFLARE_API_TOKEN   the token from step 1
+#        CLOUDFLARE_ACCOUNT_ID  copied from the Cloudflare dashboard sidebar
+# 3. GitHub: Settings -> Environments -> New environment, named exactly
+#    `production`. Scope both secrets to it and restrict it to the main branch.
+# 4. worker/wrangler.toml holds the script name and the route for ngano.dev.
+#    Nothing about the deployment target lives in this file.
+# ---------------------------------------------------------------------------
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'worker/**'
+      - 'data/**'
+      - '.github/workflows/deploy.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-worker
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy to Cloudflare
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://ngano.dev
+    defaults:
+      run:
+        working-directory: worker
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: worker/package-lock.json
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate the catalogue before serving it
+        working-directory: .
+        run: |
+          python -m pip install --upgrade jsonschema
+          python scripts/validate_catalogue.py
+
+      - name: Install
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test
+        run: npm test
+
+      - name: Deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: worker
+
+      - name: Smoke test the deployment
+        run: |
+          for attempt in 1 2 3 4 5; do
+            if curl -fsS https://ngano.dev/api/v1/healthz | tee /dev/stderr | grep -q '"ok":true'; then
+              echo "healthz reports ok"
+              exit 0
+            fi
+            echo "attempt $attempt failed, retrying in 10s"
+            sleep 10
+          done
+          echo "healthz did not come back ok after the deploy"
+          exit 1

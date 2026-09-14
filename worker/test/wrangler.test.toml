@@ -1,0 +1,13 @@
+# Wrangler config used only by the test runner.
+#
+# @cloudflare/vitest-pool-workers insists on the nodejs_compat flag so it can run
+# vitest itself inside workerd. The production Worker needs no Node APIs, so the flag
+# lives here instead of in the deployed configuration.
+name = "ngano-test"
+main = "../src/index.ts"
+compatibility_date = "2025-09-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+VERSION = "0.1.0"
+BASE_URL = "https://ngano.dev"

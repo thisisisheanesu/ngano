@@ -1,0 +1,4 @@
+# The package.json "files" allowlist is authoritative. This file only guards
+# stray artefacts that could otherwise be picked up inside allowlisted folders.
+*.tsbuildinfo
+*.log

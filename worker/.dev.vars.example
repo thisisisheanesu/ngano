@@ -1,0 +1,9 @@
+# Local development overrides for `wrangler dev`.
+# Copy to .dev.vars and edit. Every value here is optional: the Worker has sensible
+# defaults and needs no secrets, because ngano is public and unauthenticated.
+
+# Absolute base URL used for canonical links, sitemap.xml and openapi.json servers.
+BASE_URL="http://localhost:8787"
+
+# Version string reported by /api/v1/healthz and the site footer.
+VERSION="0.1.0"

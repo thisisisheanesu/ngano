@@ -1,0 +1,58 @@
+[package]
+name = "ngano"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.82"
+description = "Open catalogue and streaming loader for African-language speech datasets."
+repository = "https://github.com/ngano-dev/ngano"
+homepage = "https://ngano.dev"
+documentation = "https://docs.rs/ngano"
+license = "MIT"
+readme = "README.md"
+keywords = ["speech", "datasets", "africa", "asr", "huggingface"]
+categories = ["science", "multimedia::audio", "api-bindings"]
+authors = ["Isheanesu Nigel Misi"]
+include = [
+    "src/**/*.rs",
+    "tests/**/*.rs",
+    "build.rs",
+    "data/*.json",
+    "snippets.json",
+    "README.md",
+    "LICENSE",
+]
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "2.0"
+bytes = "1.7"
+futures = { version = "0.3", default-features = false, features = ["std", "async-await"] }
+tokio = { version = "1.38", default-features = false, features = ["time"] }
+reqwest = { version = "0.12", default-features = false, features = ["json"] }
+clap = { version = "~4.5", features = ["derive"], optional = true }
+
+[build-dependencies]
+serde_json = "1.0"
+
+[dev-dependencies]
+tokio = { version = "1.38", features = ["rt-multi-thread", "macros", "time"] }
+wiremock = "0.6"
+syn = { version = "2.0", features = ["full", "parsing"] }
+serde_json = "1.0"
+
+[features]
+default = ["rustls"]
+rustls = ["reqwest/rustls-tls"]
+native-tls = ["reqwest/native-tls"]
+blocking = ["tokio/rt", "tokio/net", "tokio/time"]
+cli = ["dep:clap", "tokio/rt", "tokio/rt-multi-thread", "tokio/macros", "tokio/net", "tokio/time"]
+
+[[bin]]
+name = "ngano"
+path = "src/bin/ngano.rs"
+required-features = ["cli"]
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
