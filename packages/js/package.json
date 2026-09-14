@@ -16,6 +16,14 @@
   "license": "MIT",
   "author": "Isheanesu Nigel Misi",
   "homepage": "https://ngano.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thisisisheanesu/ngano.git",
+    "directory": "packages/js"
+  },
+  "bugs": {
+    "url": "https://github.com/thisisisheanesu/ngano/issues"
+  },
   "type": "module",
   "sideEffects": false,
   "engines": {

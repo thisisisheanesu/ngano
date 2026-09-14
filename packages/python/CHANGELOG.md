@@ -72,4 +72,4 @@ First release.
   `get_loader_snippet` tool serve, checked in CI against the shipped API.
 - Full type hints, a `py.typed` marker, and an offline pytest suite.
 
-[0.1.0]: https://github.com/ishemisi/ngano/releases/tag/python-v0.1.0
+[0.1.0]: https://github.com/thisisisheanesu/ngano/releases/tag/python-v0.1.0
