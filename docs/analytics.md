@@ -42,6 +42,21 @@ Counts are `SUM(_sample_interval)` rather than row counts, because Analytics Eng
 samples under load and reports the rate per row. At ngano's volume the interval is 1 and
 the two agree; the query stays correct if that stops being true.
 
+## What the number actually is
+
+These are requests that **reached the Worker**. Pages are served with
+`s-maxage=3600` and assets with `s-maxage=86400`, so Cloudflare's edge answers a
+repeated request from cache without invoking the Worker at all, and that hit is not
+counted here. Expect this to undercount, by more for the assets and the popular pages
+than for the API.
+
+That is the honest trade for counting server side, and it is the right trade: the
+alternative is a page script that misses every reader with a blocker and cannot see the
+API or MCP endpoint at all. When you want the true edge total instead, the zone's own
+Traffic analytics in the dashboard counts every request including cache hits, and has a
+country breakdown of its own. Use both: the dashboard for volume, this for what people
+asked for.
+
 ## Setup
 
 The binding lives in `worker/wrangler.toml`:
