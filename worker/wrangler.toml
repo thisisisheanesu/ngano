@@ -8,14 +8,13 @@ workers_dev = true
 # the MCP endpoint and the raw data downloads are all built from data/*.json at module
 # scope, so there is no [assets] binding and no static upload step.
 
-# TEMPORARY: re-enable once the ngano.dev zone is active in Cloudflare.
-# [[routes]]
-# pattern = "ngano.dev"
-# custom_domain = true
-#
-# [[routes]]
-# pattern = "www.ngano.dev"
-# custom_domain = true
+[[routes]]
+pattern = "ngano.dev"
+custom_domain = true
+
+[[routes]]
+pattern = "www.ngano.dev"
+custom_domain = true
 
 [vars]
 VERSION = "0.1.0"
