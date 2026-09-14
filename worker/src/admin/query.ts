@@ -55,6 +55,14 @@ async function sql(accountId: string, token: string, query: string): Promise<Sql
 }
 
 /*
+ * Assets stopped being recorded, but the rows written before that stay in the dataset
+ * for its retention window and would keep showing up in every breakdown and in the
+ * totals. Analytics Engine has no delete, so they are excluded here instead. Once the
+ * window has rolled past the change this clause matches nothing and costs nothing.
+ */
+const NOT_ASSETS = `blob2 != 'asset'`;
+
+/*
  * Counts are SUM(_sample_interval), not COUNT(). Analytics Engine samples under load
  * and reports the rate on each row; summing the interval is the count that stays right
  * when that happens, and equals the row count when it does not.
@@ -62,7 +70,7 @@ async function sql(accountId: string, token: string, query: string): Promise<Sql
 function groupBy(column: string, days: number, limit: number): string {
   return `SELECT ${column} AS key, SUM(_sample_interval) AS requests
           FROM ${DATASET}
-          WHERE timestamp > NOW() - INTERVAL '${days}' DAY
+          WHERE timestamp > NOW() - INTERVAL '${days}' DAY AND ${NOT_ASSETS}
           GROUP BY key ORDER BY requests DESC LIMIT ${limit}`;
 }
 
@@ -92,7 +100,7 @@ export async function fetchTraffic(
         `SELECT toStartOfInterval(timestamp, INTERVAL '${days <= 2 ? 1 : 24}' HOUR) AS key,
                 SUM(_sample_interval) AS requests
          FROM ${DATASET}
-         WHERE timestamp > NOW() - INTERVAL '${days}' DAY
+         WHERE timestamp > NOW() - INTERVAL '${days}' DAY AND ${NOT_ASSETS}
          GROUP BY key ORDER BY key ASC LIMIT 200`,
       ),
     ]);

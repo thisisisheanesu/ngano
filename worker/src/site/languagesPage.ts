@@ -104,7 +104,7 @@ function row(language: Language): string {
     .toLowerCase();
 
   return `<tr data-find="${esc(haystack)}">
-<th scope="row" style="font-weight:600"><a href="${esc(languageHref(language))}">${esc(language.name)}</a></th>
+<th scope="row"><a href="${esc(languageHref(language))}">${esc(language.name)}</a></th>
 <td><code class="inl">${esc(language.tag)}</code></td>
 <td><code class="inl">${esc(language.iso639_3)}</code></td>
 <td class="r">${esc(num(language.datasets))}</td>

@@ -103,7 +103,7 @@ ${tables}
 function row(iso2: string, name: string, stats: CountryStats | undefined): string {
   const languages = stats?.language_tags.length ?? 0;
   return `<tr>
-<th scope="row" style="font-weight:600"><a href="/countries/${esc(iso2.toLowerCase())}">${esc(name)}</a></th>
+<th scope="row"><a href="/countries/${esc(iso2.toLowerCase())}">${esc(name)}</a></th>
 <td><code class="inl">${esc(iso2)}</code></td>
 <td class="r">${esc(fmtHours(stats?.hours ?? 0))}</td>
 <td class="r">${esc(num(stats?.datasets ?? 0))}</td>

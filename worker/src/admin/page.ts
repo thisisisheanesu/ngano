@@ -262,7 +262,7 @@ ${
 
 <section class="block panel">
   <h2 class="sec">Traffic</h2>
-  <p class="note" style="margin:0 0 16px">Requests that reached the Worker in the last ${esc(RANGES.find((r) => r.days === d.days)?.label ?? `${d.days} days`)}. The stylesheet, scripts and icons are not counted at all: they are pulled by pages that are already counted. Cloudflare answers repeat requests from its edge cache without running the Worker, so a page someone revisits inside the hour is missed.</p>
+  <p class="note" style="margin:0 0 16px">Requests that reached the Worker in the last ${esc(RANGES.find((r) => r.days === d.days)?.label ?? `${d.days} days`)}. The stylesheet, scripts and icons are not counted, and rows recorded before that changed are excluded here too. Cloudflare answers repeat requests from its edge cache without running the Worker, so a page someone revisits inside the hour is missed.</p>
   <div class="bignums">
     <div class="bn hi"><div class="v">${esc(num(publicTotal))}</div><div class="k">requests, excluding admin</div></div>
     <div class="bn"><div class="v">${esc(num(pageRequests))}</div><div class="k">page views</div></div>
@@ -307,7 +307,7 @@ ${
           : t.countries
               .map(
                 (r) =>
-                  `<tr><th scope="row" style="font-weight:600">${esc(countryName(r.key))}</th><td><code class="inl">${esc(r.key || 'XX')}</code></td><td class="r">${esc(num(r.requests))}</td><td class="r">${t.total ? ((r.requests / t.total) * 100).toFixed(1) : '0.0'}%</td></tr>`,
+                  `<tr><th scope="row">${esc(countryName(r.key))}</th><td><code class="inl">${esc(r.key || 'XX')}</code></td><td class="r">${esc(num(r.requests))}</td><td class="r">${t.total ? ((r.requests / t.total) * 100).toFixed(1) : '0.0'}%</td></tr>`,
               )
               .join('')
       }</tbody>
@@ -334,7 +334,8 @@ function surfaceLabel(key: string): string {
     mcp: 'MCP server',
     admin: 'This dashboard',
     data: 'Raw data files',
-    asset: 'CSS, JS and icons (no longer counted)',
+    /* Not counted and filtered out of every query; kept only so an old row is legible. */
+    asset: 'CSS, JS and icons',
   };
   return labels[key] ?? key;
 }

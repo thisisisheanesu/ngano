@@ -251,10 +251,17 @@ code.tagbig{font-family:var(--font-mono); font-size:.5em; font-weight:500; color
 .btrack i{display:block; height:100%; border-radius:3px; background:var(--accent)}
 
 table.tbl{width:100%; border-collapse:collapse; font-size:13.5px}
-table.tbl th{text-align:left; font-family:var(--font-mono); font-size:10px; letter-spacing:.08em;
+/*
+ * Scoped to thead. This used to be every th, which caught the row headers that start
+ * each body row: country and language names came out as tiny muted uppercase mono, and
+ * with the header's 0 top padding they sat eight pixels above the cells beside them,
+ * so a name and its code did not line up.
+ */
+table.tbl thead th{text-align:left; font-family:var(--font-mono); font-size:10px; letter-spacing:.08em;
   text-transform:uppercase; color:var(--muted); font-weight:600; padding:0 12px 8px 0; border-bottom:1px solid var(--line); white-space:nowrap}
-table.tbl td{padding:8px 12px 8px 0; border-bottom:1px solid var(--line); vertical-align:top}
-table.tbl tr:last-child td{border-bottom:0}
+table.tbl td,table.tbl tbody th{padding:8px 12px 8px 0; border-bottom:1px solid var(--line); vertical-align:top}
+table.tbl tbody th{text-align:left; font-weight:600; color:var(--ink)}
+table.tbl tr:last-child td,table.tbl tbody tr:last-child th{border-bottom:0}
 table.tbl th.r,table.tbl td.r{text-align:right; font-variant-numeric:tabular-nums}
 table.tbl td code{font-size:12.5px}
 .tscroll{overflow-x:auto; -webkit-overflow-scrolling:touch}
