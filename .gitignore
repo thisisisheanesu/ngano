@@ -55,3 +55,7 @@ Thumbs.db
 scratch/
 tmp/
 *.local.json
+
+# Recorded demos are large binaries; keep the script, not the take.
+demos/*.mp4
+demos/*.telemetry.json
