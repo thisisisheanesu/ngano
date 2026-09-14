@@ -21,6 +21,8 @@ import {
   renderLanguage,
   renderMap,
   renderNotFound,
+  renderCountries,
+  renderLanguages,
   siteAssets,
 } from './site/index.js';
 
@@ -54,6 +56,8 @@ function sitemap(ctx: SiteContext): string {
     `${ctx.baseUrl}/docs`,
     `${ctx.baseUrl}/credits`,
   ];
+  urls.push(`${ctx.baseUrl}/countries`);
+  urls.push(`${ctx.baseUrl}/languages`);
   for (const country of ctx.countries) urls.push(`${ctx.baseUrl}/countries/${country.iso2.toLowerCase()}`);
   for (const dataset of ctx.datasets) urls.push(`${ctx.baseUrl}/datasets/${encodeURIComponent(dataset.id)}`);
   for (const language of ctx.languages) urls.push(`${ctx.baseUrl}/languages/${encodeURIComponent(language.slug)}`);
@@ -87,6 +91,8 @@ function robots(ctx: SiteContext): string {
 function renderSite(path: string, ctx: SiteContext): string | null {
   if (path === '' || path === '/') return renderHome(ctx);
   if (path === '/map') return renderMap(ctx);
+  if (path === '/countries') return renderCountries(ctx);
+  if (path === '/languages') return renderLanguages(ctx);
   if (path === '/credits') return renderCredits(ctx);
   if (path === '/docs') return renderDocs(ctx);
 

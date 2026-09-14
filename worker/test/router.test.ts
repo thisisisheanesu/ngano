@@ -145,10 +145,13 @@ describe('robots, sitemap and favicon', () => {
     expect(res.headers.get('Content-Type')).toContain('application/xml');
     const body = await res.text();
     const count = (body.match(/<url>/g) ?? []).length;
-    expect(count).toBe(4 + countries.length + datasets.length + languages.length);
+    /* Home, map, docs, credits, plus the two directories, plus every record page. */
+    expect(count).toBe(6 + countries.length + datasets.length + languages.length);
     expect(body).toContain('<loc>https://ngano.dev/</loc>');
     expect(body).toContain(`<loc>https://ngano.dev/countries/${(countries[0] as Country).iso2.toLowerCase()}</loc>`);
     expect(body).toContain(`<loc>https://ngano.dev/languages/${(languages[0] as Language).slug}</loc>`);
+    expect(body).toContain('<loc>https://ngano.dev/countries</loc>');
+    expect(body).toContain('<loc>https://ngano.dev/languages</loc>');
   });
 
   it('serves an SVG favicon', async () => {
