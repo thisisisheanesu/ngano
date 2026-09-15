@@ -414,6 +414,20 @@ footer.foot a:hover{color:var(--accent-ink)}
 }
 @media (prefers-reduced-motion:reduce){ *{animation:none !important; transition:none !important} }
 
+/*
+ * The honeypot. Not display:none, because the better bots skip anything hidden that
+ * obviously; this is taken out of the flow and clipped instead, which they do fill in.
+ * A person never reaches it, including by keyboard: the input carries tabindex -1 and
+ * the wrapper is aria-hidden.
+ */
+.hp{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0);
+  white-space:nowrap; border:0; padding:0; margin:-1px}
+
+.msg{border:1px solid var(--line); border-radius:10px; padding:12px 14px; margin-bottom:10px;
+  background:var(--surface-2)}
+.msg header{display:flex; gap:10px; align-items:baseline; flex-wrap:wrap; margin-bottom:8px}
+.msg p{margin:0; white-space:pre-wrap; overflow-wrap:anywhere; color:var(--ink-2)}
+
 /* ---------- navigation ---------- */
 /*
  * Cross-document view transitions. With the prerendering rules in the head, the next

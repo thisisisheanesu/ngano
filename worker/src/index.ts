@@ -15,6 +15,7 @@ import type { SiteContext } from './types.js';
 import { record, surfaceOf } from './analytics.js';
 import { num } from './site/util.js';
 import { adminEnabled, handleAdmin } from './admin/index.js';
+import { submit } from './contact.js';
 import {
   renderCountry,
   renderCredits,
@@ -24,6 +25,7 @@ import {
   renderLanguage,
   renderMap,
   renderNotFound,
+  renderContact,
   renderCountries,
   renderLanguages,
   siteAssets,
@@ -59,6 +61,7 @@ function sitemap(ctx: SiteContext): string {
     `${ctx.baseUrl}/docs`,
     `${ctx.baseUrl}/credits`,
   ];
+  urls.push(`${ctx.baseUrl}/contact`);
   urls.push(`${ctx.baseUrl}/countries`);
   urls.push(`${ctx.baseUrl}/languages`);
   for (const country of ctx.countries) urls.push(`${ctx.baseUrl}/countries/${country.iso2.toLowerCase()}`);
@@ -153,6 +156,8 @@ function renderSite(path: string, ctx: SiteContext): string | null {
   if (path === '/languages') return renderLanguages(ctx);
   if (path === '/credits') return renderCredits(ctx);
   if (path === '/docs') return renderDocs(ctx);
+  /* The form carries a timestamp for the timing check, so its HTML must not be cached. */
+  if (path === '/contact') return renderContact(ctx);
 
   const country = /^\/countries\/([^/]+)$/.exec(path);
   if (country?.[1]) return renderCountry(ctx, decodeURIComponent(country[1]));
@@ -182,6 +187,26 @@ export async function handleRequest(req: Request, env: Env): Promise<Response> {
   if (path === '/admin' || path.startsWith('/admin/')) {
     if (!adminEnabled(env)) return html(renderNotFound(ctx, path), { status: 404, cache: 'no-store' });
     return handleAdmin(req, env, path, ctx);
+  }
+
+  /* Before the GET-only guard: the contact form posts. */
+  if (path === '/contact' && req.method === 'POST') {
+    const form = await req.formData();
+    const outcome = await submit(env, req, form);
+    if (outcome.ok) {
+      return html(renderContact(ctx, { sent: true, storedOnly: !outcome.emailed }), { cache: 'no-store' });
+    }
+    return html(
+      renderContact(ctx, {
+        problem: outcome.problem,
+        values: {
+          name: String(form.get('name') ?? ''),
+          email: String(form.get('email') ?? ''),
+          message: String(form.get('message') ?? ''),
+        },
+      }),
+      { status: outcome.status, cache: 'no-store' },
+    );
   }
 
   if (path === '/mcp') return handleMcp(req, ctx);
@@ -224,7 +249,7 @@ export async function handleRequest(req: Request, env: Env): Promise<Response> {
   }
 
   const page = renderSite(path, ctx);
-  if (page !== null) return html(page);
+  if (page !== null) return html(page, path === '/contact' ? { cache: 'no-store' } : {});
 
   return html(renderNotFound(ctx, path), { status: 404, cache: 'no-store' });
 }

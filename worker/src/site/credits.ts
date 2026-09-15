@@ -73,7 +73,10 @@ ${
 </section>`
 }
 
-${author.email ? `<p><a class="btn" href="mailto:${esc(author.email)}">${icon('mail', 15)} ${esc(author.email)}</a></p>` : ''}
+<p class="btnrow">
+  <a class="btn pri" href="/contact">${icon('mail', 15)} Send a message</a>
+  ${author.email ? `<a class="btn" href="mailto:${esc(author.email)}">${esc(author.email)}</a>` : ''}
+</p>
 
 <section class="block panel">
   <h2 class="sec">What ngano means</h2>

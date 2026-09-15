@@ -1,7 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { SELF } from 'cloudflare:test';
-
-const call = (path: string) => SELF.fetch(`https://ngano.dev${path}`);
+import { call, getJson } from './helpers.js';
 
 describe('how a machine finds out what this is', () => {
   it('serves llms.txt with the figures taken from the catalogue', async () => {
@@ -11,7 +9,7 @@ describe('how a machine finds out what this is', () => {
     const body = await res.text();
     expect(body.startsWith('# ngano')).toBe(true);
     /* The numbers must come from the catalogue, never be typed in beside it. */
-    const stats = await (await call('/api/v1/stats')).json<{ datasets: number; languages: number }>();
+    const { body: stats } = await getJson<{ datasets: number; languages: number }>('/api/v1/stats');
     expect(body).toContain(String(stats.datasets));
     expect(body).toContain(String(stats.languages));
     /* The point of the file is the machine-readable surfaces, so they have to be in it. */

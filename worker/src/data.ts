@@ -443,6 +443,12 @@ export interface Env {
   ADMIN?: KVNamespace;
   /** Account token with Account Analytics: Read, for the dashboard's own queries. */
   CF_ANALYTICS_TOKEN?: string;
+  /** Cloudflare Email Routing binding used by the contact form. */
+  CONTACT_EMAIL?: SendEmail;
+  /** Verified Email Routing destination the form sends to. */
+  CONTACT_TO?: string;
+  /** Envelope sender, which has to be an address on this zone. */
+  CONTACT_FROM?: string;
 }
 
 const contextCache = new Map<string, SiteContext>();

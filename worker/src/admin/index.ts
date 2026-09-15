@@ -27,6 +27,7 @@ import {
   COOKIE,
 } from './auth.js';
 import { fetchTraffic } from './query.js';
+import { recentMessages } from '../contact.js';
 import { dashboardPage, loginPage, passwordPage } from './page.js';
 import { assetUrl } from '../site/assets.js';
 
@@ -156,9 +157,13 @@ export async function handleAdmin(req: Request, env: Env, path: string, ctx: Sit
     const url = new URL(req.url);
     const requested = Number(url.searchParams.get('days') ?? '7');
     const days = [1, 7, 30, 90].includes(requested) ? requested : 7;
-    const traffic = await fetchTraffic(ACCOUNT_ID, env.CF_ANALYTICS_TOKEN as string, days);
+    const [traffic, messages] = await Promise.all([
+      fetchTraffic(ACCOUNT_ID, env.CF_ANALYTICS_TOKEN as string, days),
+      recentMessages(kv),
+    ]);
     return page(
       dashboardPage({
+        messages,
         traffic,
         days,
         username: session.username,

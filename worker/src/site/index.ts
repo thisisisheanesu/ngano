@@ -33,6 +33,7 @@ export { renderLanguages } from './languagesPage';
 export { renderCountry } from './country';
 export { renderDataset } from './dataset';
 export { renderLanguage } from './language';
+export { renderContact } from './contact';
 export { renderCredits } from './credits';
 export { renderDocs } from './docs';
 export { renderNotFound } from './notfound';

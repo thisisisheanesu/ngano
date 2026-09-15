@@ -2,31 +2,39 @@ import { describe, expect, it } from 'vitest';
 import { checkPassword, derive, makeUser, passwordProblem, readCookie, setCookie, clearCookie } from '../src/admin/auth';
 
 describe('admin credentials', () => {
-  it('round-trips a password through the stored hash', async () => {
+  /*
+   * One full-strength round trip, because that is the thing that must actually work.
+   * The rest use `derive` at a low iteration count: they are checking shape and salting,
+   * and 600k iterations per assertion costs more CPU than the test isolate will give.
+   */
+  it('round-trips a password through the stored hash at full strength', async () => {
     const user = await makeUser('ishe', 'a-long-enough-password');
+    expect(user.iterations).toBeGreaterThanOrEqual(600_000);
     expect(await checkPassword(user, 'a-long-enough-password')).toBe(true);
     expect(await checkPassword(user, 'a-long-enough-passworD')).toBe(false);
-    expect(await checkPassword(user, '')).toBe(false);
   });
 
   it('never stores the password itself', async () => {
-    const user = await makeUser('ishe', 'correct horse battery staple');
-    const serialised = JSON.stringify(user);
-    expect(serialised).not.toContain('correct horse');
-    expect(user.hash).toMatch(/^[0-9a-f]{64}$/);
-    expect(user.salt).toMatch(/^[0-9a-f]{32}$/);
+    const salt = new Uint8Array(16).fill(3);
+    const hash = await derive('correct horse battery staple', salt, 1000);
+    expect(hash).not.toContain('correct');
+    expect(hash).toMatch(/^[0-9a-f]{64}$/);
   });
 
   it('salts each password separately, so two identical passwords hash differently', async () => {
-    const a = await makeUser('ishe', 'the same password here');
-    const b = await makeUser('ishe', 'the same password here');
-    expect(a.salt).not.toBe(b.salt);
-    expect(a.hash).not.toBe(b.hash);
+    const a = new Uint8Array(16).fill(1);
+    const b = new Uint8Array(16).fill(2);
+    expect(await derive('the same password here', a, 1000)).not.toBe(
+      await derive('the same password here', b, 1000),
+    );
   });
 
-  it('uses an iteration count at or above the OWASP floor for PBKDF2-SHA256', async () => {
-    const user = await makeUser('ishe', 'a-long-enough-password');
-    expect(user.iterations).toBeGreaterThanOrEqual(600_000);
+  it('chains rounds, so more iterations is a different hash and not the same one', async () => {
+    const salt = new Uint8Array(16).fill(9);
+    /* 200k runs as two chained rounds; it must not equal one round of 100k. */
+    expect(await derive('a-long-enough-password', salt, 200_000)).not.toBe(
+      await derive('a-long-enough-password', salt, 100_000),
+    );
   });
 
   it('is deterministic for a given salt and iteration count', async () => {

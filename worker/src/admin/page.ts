@@ -208,7 +208,17 @@ function shortDate(iso: string): string {
   return d.toISOString().slice(0, 16).replace('T', ' ') + ' UTC';
 }
 
+export interface Message {
+  name: string;
+  email: string;
+  message: string;
+  country: string;
+  received: string;
+  emailed: boolean;
+}
+
 export interface DashboardData {
+  messages: Message[];
   traffic: Traffic;
   days: number;
   username: string;
@@ -313,6 +323,27 @@ ${
       }</tbody>
     </table>
   </div>
+</section>
+
+<section class="block panel">
+  <h2 class="sub" style="margin-top:0">Messages</h2>
+  <p class="note" style="margin:0 0 14px">From the contact form. Stored here first, so a message survives whether or not the copy to the inbox goes out.</p>
+  ${
+    d.messages.length === 0
+      ? '<p class="note">Nothing yet.</p>'
+      : d.messages
+          .map(
+            (m) => `<article class="msg">
+<header>
+  <strong>${esc(m.name)}</strong>
+  <a href="mailto:${esc(m.email)}?subject=${encodeURIComponent('Re: your message to ngano')}">${esc(m.email)}</a>
+  <span class="note">${esc(countryName(m.country))} &middot; ${esc(shortDate(m.received))} &middot; ${m.emailed ? 'emailed' : 'not emailed'}</span>
+</header>
+<p>${esc(m.message)}</p>
+</article>`,
+          )
+          .join('')
+  }
 </section>
 
 <section class="block panel">

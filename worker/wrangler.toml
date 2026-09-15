@@ -29,8 +29,16 @@ id = "6472bcd1857a459aa1281fcbc070297f"
 binding = "ANALYTICS"
 dataset = "ngano_requests"
 
+# The contact form. Cloudflare Email Routing delivers to a verified destination; the
+# envelope sender has to be an address on this zone even though nothing receives there.
+[[send_email]]
+name = "CONTACT_EMAIL"
+destination_address = "inmisimail@gmail.com"
+
 [vars]
 VERSION = "0.1.0"
+CONTACT_TO = "inmisimail@gmail.com"
+CONTACT_FROM = "contact@ngano.dev"
 BASE_URL = "https://ngano.dev"
 
 [observability]

@@ -44,6 +44,7 @@ const NAV: { href: string; label: string }[] = [
   { href: '/languages', label: 'Languages' },
   { href: '/docs', label: 'API' },
   { href: '/credits', label: 'Credits' },
+  { href: '/contact', label: 'Contact' },
 ];
 
 /**
@@ -174,6 +175,7 @@ function footer(ctx: SiteContext): string {
 <li><a href="/languages">All languages</a></li>
 <li><a href="/docs">API and SDKs</a></li>
 <li><a href="/credits">Credits and citation</a></li>
+<li><a href="/contact">Contact</a></li>
 </ul>
 </div>
 <div>
